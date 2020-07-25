@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e -u
 #Print pretty pineapple text and prepare environment
 rm -rf /tmp/pineapple
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
