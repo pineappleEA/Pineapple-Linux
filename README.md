@@ -6,6 +6,7 @@ This script downloads the latest Yuzu Early Access (or an older version if you w
 
 ## Dependencies
 The installer requires the same dependencies as yuzu for building plus 7zip for extraction. The way yuzu prompts users to install conan is not recommended.
+
       | Distro          | Commands
       | --------------- | ----------------
       | Arch            | sudo pacman -S --needed p7zip git base-devel ninja cmake sdl2 qt5 python2 python-pip boost catch2 fmt libzip lz4 mbedtls nlohmann-json openssl opus zlib zstd && yay -S conan or get conan from aur manually.
