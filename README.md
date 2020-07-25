@@ -6,7 +6,6 @@ This script downloads the latest Yuzu Early Access (or an older version if you w
 
 ## Dependencies
 The installer requires the same dependencies as yuzu for building plus 7zip for extraction. The way yuzu prompts users to install conan is not recommended.
-
       | Distro          | Commands
       | --------------- | ----------------
       | Arch            | sudo pacman -S --needed p7zip git base-devel ninja cmake sdl2 qt5 python2 python-pip boost catch2 fmt libzip lz4 mbedtls nlohmann-json openssl opus zlib zstd && yay -S conan or get conan from aur manually.
@@ -15,7 +14,7 @@ The installer requires the same dependencies as yuzu for building plus 7zip for 
       | Gentoo          | emerge dev-vcs/git app-arch/p7zip =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan
       
 ## Usage
-Clone the script using ``` wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh ``` and run it using ```sh pineapple.sh ```
+Download the script using ``` wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh ``` and run it using ```sh pineapple.sh ```
 
 ## Tips
 Use ccache to make compilation way faster. Just install the ccache package and add ```  export PATH="/usr/lib/ccache/bin/:$PATH" ``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files).
