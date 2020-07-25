@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e -u
 #Print pretty pineapple text and prepare environment
 rm -rf /tmp/pineapple
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
@@ -26,7 +27,7 @@ curl -s https://pineappleea.github.io/ | sed -e '0,/^			<!--link-goes-here-->$/d
 printf "Latest version is "
 head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>'
 printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \nor anything else to exit.\nOption:"
-read option
+read option <&1
 #execute the given command
 if [ "$option" = "1" ]; then
 	curl -s $(head -n 1 version.txt | grep -o 'https.*7z') > version.txt
@@ -34,7 +35,7 @@ elif [ "$option" = "2" ]; then
 	printf "Available versions:\n"
 	uniq version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed -e ':a;N;$!ba;s/\n/,/g' -e 's/\EA //g'
 	printf "Choose version number:"
-	read version
+	read version <&1
 	curl -s $(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z') > version.txt
 elif [ "$option" = "3" ]; then
 	printf "\nUninstalling...\n"
@@ -62,7 +63,7 @@ mkdir -p build && cd build
 cmake .. -GNinja
 ninja
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
-read install
+read install <&1
 #Save compiler output to ~/earlyaccess/yuzu and cleanup /tmp if user doesn't want to install
 if [ "$install" = "n" ]; then
 	mkdir -p ~/earlyaccess
