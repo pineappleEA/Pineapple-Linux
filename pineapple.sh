@@ -24,17 +24,21 @@ printf "on pizza\n"
 curl -s https://pineappleea.github.io/ | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
 #Print current version and take user input
 printf "Latest version is "
-head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>'
+latest=$(head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed 's/[^0-9]*//g')
+printf $latest
+printf "\n"
 printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \nor anything else to exit.\nOption:"
 read option <&1
 #execute the given command
 if [ "$option" = "1" ]; then
+    title=$latest
 	curl -s $(head -n 1 version.txt | grep -o 'https.*7z') > version.txt
 elif [ "$option" = "2" ]; then
 	printf "Available versions:\n"
 	uniq version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed -e ':a;N;$!ba;s/\n/,/g' -e 's/\EA //g'
 	printf "Choose version number:"
 	read version <&1
+	title=$version
 	curl -s $(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z') > version.txt
 elif [ "$option" = "3" ]; then
 	printf "\nUninstalling...\n"
@@ -59,7 +63,7 @@ rm yuzu-windows-msvc-source-*.tar.xz
 cd $(ls -d yuzu-windows-msvc-source-*)
 find -type f -exec sed -i 's/\r$//' {} ';'
 mkdir -p build && cd build
-cmake .. -GNinja
+cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title"  -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}"
 ninja
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
 read install <&1
@@ -76,7 +80,6 @@ else
     :
 fi
 #Install yuzu and cleanup /tmp
-printf "\n"
 sudo mv bin/yuzu /usr/local/bin/yuzu
 cd /usr/share/pixmaps
 rm -rf /tmp/pineapple/*
