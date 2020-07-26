@@ -19,7 +19,14 @@ Either get conan manually from https://conan.io/downloads.html or use ```sudo pi
 ```emerge dev-vcs/git app-arch/p7zip =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
       
 ## Usage
-Download the script using ``` wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh ``` and run it using ```sh pineapple.sh ```
+Run the script using 
+
+``curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | bash``
+
+
+Alternatively, download the script using ``` wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh ``` and run it using ```sh pineapple.sh ```.
+
+But keep in mind that you may have to update the downloaded script from time to time.
 
 ## Tips
 Use ccache to make compilation way faster. Just install the ccache package and add ```  export PATH="/usr/lib/ccache/bin/:$PATH" ``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files).
