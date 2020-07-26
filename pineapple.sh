@@ -62,8 +62,11 @@ rm yuzu-windows-msvc-source-*.tar.xz
 #Compilation
 cd $(ls -d yuzu-windows-msvc-source-*)
 find -type f -exec sed -i 's/\r$//' {} ';'
+wget https://raw.githubusercontent.com/Alex-Aralis/yuzu-overlay/master/games-emulation/yuzu-dev/files/inject-git-info.patch
+patch -p1 < inject-git-info.patch
+msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
-cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON
+cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc"
 ninja
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
 read install <&1
