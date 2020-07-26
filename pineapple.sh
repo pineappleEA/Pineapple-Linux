@@ -61,7 +61,7 @@ tar -xf yuzu-windows-msvc-source-*
 rm yuzu-windows-msvc-source-*.tar.xz 
 #Compilation
 cd $(ls -d yuzu-windows-msvc-source-*)
-find -type f -exec sed -i 's/\r$//' {} ';'
+find -path ./dist/qt_themes -prune -o -type f -exec sed -i 's/\r$//' {} ';'
 wget https://raw.githubusercontent.com/Alex-Aralis/yuzu-overlay/master/games-emulation/yuzu-dev/files/inject-git-info.patch
 patch -p1 < inject-git-info.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
