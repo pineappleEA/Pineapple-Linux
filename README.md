@@ -1,5 +1,6 @@
 # Pineapple-Linux
 A Yuzu compiler and updater for Linux
+Brought to you by EmuWorld (https://discord.gg/wUeBAsv)
 
 ## What does it do
 This script downloads the latest Yuzu Early Access (or an older version if you wish) from PinEApple, extracts it, compiles it and optionally installs it creating a launcher entry and a terminal command. The script also provides an unistall option in case something goes wrong
