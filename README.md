@@ -29,4 +29,4 @@ Alternatively, download the script using ``` wget https://raw.githubusercontent.
 But keep in mind that you may have to update the downloaded script from time to time.
 
 ## Tips
-Use ccache to make compilation way faster. Just install the ccache package and add ```  export PATH="/usr/lib/ccache/bin/:$PATH" ``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files).
+Use ccache to make compilation way faster. Just install the ccache package and add append the path. For arch you can add ```  export PATH="/usr/lib/ccache/bin/:$PATH" ``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files), for debian based distros like ubuntu and mint you can follow the first answer [here](https://askubuntu.com/questions/470545/how-do-i-set-up-ccache).
