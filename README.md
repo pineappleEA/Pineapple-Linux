@@ -1,8 +1,8 @@
 # Pineapple-Linux
-A Yuzu compiler and updater for Linux\
+A yuzu compiler and updater for Linux
 
 ## What does it do
-This script downloads the latest Yuzu Early Access (or an older version if you wish) from PinEApple, extracts it, compiles it and optionally installs it creating a launcher entry and a terminal command. The script also provides an unistall option in case something goes wrong
+This script downloads the latest yuzu Early Access (or an older version if you wish) from [PinEApple](https://pineappleea.github.io/), extracts it, compiles it and optionally installs it creating a launcher entry and a terminal command. The script also provides an unistall option in case something goes wrong
 
 ## Dependencies
 The installer requires the same dependencies as yuzu for building plus 7zip for extraction. The way yuzu prompts users to install conan is not recommended.
