@@ -12,7 +12,7 @@ The installer requires the same dependencies as yuzu for building plus 7zip for 
 or get conan from aur manually.
 ### Debian (incl. Ubuntu,Mint,pop os etc.)
 ```sudo apt-get install p7zip-full git build-essential ninja-build cmake libsdl2-dev qtbase5-dev libqt5opengl5-dev qtwebengine5-dev qtbase5-private-dev python python3-pip libboost-dev libboost-context-dev libzip-dev liblz4-dev libmbedtls-dev libssl-dev libopus-dev zlib1g-dev libzstd-dev```
-Either get conan manually from https://conan.io/downloads.html or use ```sudo pip3 install conan```
+Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
 ### Fedora
 ```sudo dnf install p7zip git gcc ninja-build cmake SDL2-devel qt5-qtbase-devel python2 python-pip boost-devel fmt-devel libzip-devel libzstd-devel lz4-devel mbedtls-devel openssl-devel opus-devel zlib-devel && sudo pip install conan```
 ### Gentoo
@@ -23,10 +23,14 @@ Run the script using
 
 ``curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | bash``
 
+If you wanna call the updater using a command, you can append an alias to your .bash_rc/.zshrc. For example, adding
 
-Alternatively, download the script using ``` wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh ``` and run it using ```sh pineapple.sh ```.
+```alias pineapple="curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | bash"``` 
+will run the script when you type in the command ```pineapple```.
+
+Alternatively, download the script using ```wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh``` and run it using ```sh pineapple.sh```.
 
 But keep in mind that you may have to update the downloaded script from time to time.
 
 ## Tips
-Use ccache to make compilation way faster. Just install the ccache package and add append the path. For arch you can add ```  export PATH="/usr/lib/ccache/bin/:$PATH" ``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files), for debian based distros like ubuntu and mint you can follow the first answer [here](https://askubuntu.com/questions/470545/how-do-i-set-up-ccache).
+Use ccache to make compilation way faster. Just install the ccache package and add append the path. For arch you can add ```export PATH="/usr/lib/ccache/bin/:$PATH"``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files), for debian based distros like ubuntu and mint you can follow the first answer [here](https://askubuntu.com/questions/470545/how-do-i-set-up-ccache).
