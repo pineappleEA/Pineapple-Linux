@@ -1,5 +1,5 @@
 # Pineapple-Linux
-A Yuzu compiler and updater for Linux
+A Yuzu compiler and updater for Linux\
 Brought to you by EmuWorld (https://discord.gg/wUeBAsv)
 
 ## What does it do
