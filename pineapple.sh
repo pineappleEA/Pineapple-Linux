@@ -20,14 +20,17 @@ ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfF9fLyAgICAgIHxfXy8gICAgICAg
 ICAgICAgICAgIA=="
 printf "\n"
 printf "on pizza\n"
+printf "Brought to you by EmuWorld!\n"
 #Download and save links currently listed on PinEApple site
 curl -s https://pineappleea.github.io/ | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
 #Print current version and take user input
+function prompt
+{
 printf "Latest version is "
 latest=$(head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed 's/[^0-9]*//g')
 printf $latest
 printf "\n"
-printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \nor anything else to exit.\nOption:"
+printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4] To display Discord Invite\n or anything else to exit.\nOption:"
 read option <&1
 #execute the given command
 if [ "$option" = "1" ]; then
@@ -49,10 +52,18 @@ elif [ "$option" = "3" ]; then
 	sudo update-desktop-database
 	printf "Uninstalled successfully\n"
 	exit
+elif [ "$option" = "4" ]; then
+	printf "Discord Invite:\n"
+	base64 -d <<<"aHR0cHM6Ly9kaXNjb3JkLmdnL3dVZUJBc3Y="
+	printf "\n"
+	sleep 2s
+	prompt
 else
 	printf "Exiting...\n"
 	exit
 fi
+}
+prompt
 #Download and unzip given version
 wget $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 7z x Yuzu*
