@@ -73,7 +73,7 @@ rm yuzu-windows-msvc-source-*.tar.xz
 #Compilation
 cd $(ls -d yuzu-windows-msvc-source-*)
 find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
-wget https://raw.githubusercontent.com/Alex-Aralis/yuzu-overlay/master/games-emulation/yuzu-dev/files/inject-git-info.patch
+wget https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
 patch -p1 < inject-git-info.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
