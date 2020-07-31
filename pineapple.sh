@@ -66,7 +66,7 @@ fi
 prompt
 #Download and unzip given version
 wget $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
-7z x Yuzu*
+7z x Yuzu* yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
 cd yuzu-windows-msvc-early-access
 tar -xf yuzu-windows-msvc-source-*
 rm yuzu-windows-msvc-source-*.tar.xz 
