@@ -66,6 +66,12 @@ fi
 prompt
 #Download and unzip given version
 wget $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+if [ $? -ne 0 ]; then
+    printf "Download failed!\n"
+    printf "If you are in Italy or Iran, please use a VPN in another country\n"
+    printf "otherwise, please try again in a few minutes\n"
+    exit
+fi
 7z x Yuzu* yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
 cd yuzu-windows-msvc-early-access
 tar -xf yuzu-windows-msvc-source-*
