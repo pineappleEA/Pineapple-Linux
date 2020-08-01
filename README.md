@@ -33,4 +33,18 @@ Alternatively, download the script using ```wget https://raw.githubusercontent.c
 But keep in mind that you may have to update the downloaded script from time to time.
 
 ## Tips
+If you have aria2 installed, the script will automatically use it to download yuzu with multiple connections, giving up to a 6x download speed improvement
+
+### Arch
+```sudo pacman -S aria2```
+### Debian (incl. Ubuntu,Mint,pop os etc.)
+```sudo pacman -S aria2```
+### Fedora
+```sudo dnf install aria2```
+### Gentoo
+```emerge net-misc/aria2```
+
+If you do not have aria2 installed, the script will fall back to the slower wget
+
 Use ccache to make compilation way faster. Just install the ccache package and add append the path. For arch you can add ```export PATH="/usr/lib/ccache/bin/:$PATH"``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files), for debian based distros like ubuntu and mint you can follow the first answer [here](https://askubuntu.com/questions/470545/how-do-i-set-up-ccache).
+

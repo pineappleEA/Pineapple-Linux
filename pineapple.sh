@@ -65,7 +65,11 @@ fi
 }
 prompt
 #Download and unzip given version
-wget $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+if [ -x "$(command -v aria2c)"]; then
+	wget $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+else
+	aria2c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+fi
 if [ $? -ne 0 ]; then
     printf "Download failed!\n"
     printf "If you are in Italy or Iran, please use a VPN in another country\n"
