@@ -22,7 +22,7 @@ printf "\n"
 printf "on pizza\n"
 printf "Brought to you by EmuWorld!\n"
 #Download and save links currently listed on PinEApple site
-curl -s https://pineappleea.github.io/ | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
+curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
 #Print current version and take user input
 function prompt
 {
