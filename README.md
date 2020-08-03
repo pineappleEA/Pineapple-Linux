@@ -21,11 +21,11 @@ Either get conan manually from [here](https://conan.io/downloads.html) or use ``
 ## Usage
 Run the script using 
 
-``curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | bash``
+``curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | sh``
 
 If you wanna call the updater using a command, you can append an alias to your .bash_rc/.zshrc. For example, adding
 
-```alias pineapple="curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | bash"``` 
+```alias pineapple="curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | sh"``` 
 will run the script when you type in the command ```pineapple```.
 
 Alternatively, download the script using ```wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh``` and run it using ```sh pineapple.sh```.
