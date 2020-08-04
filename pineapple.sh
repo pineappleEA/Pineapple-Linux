@@ -94,7 +94,7 @@ if ! [ -x "$(glxinfo -B | grep "NVIDIA")"] || ! [ -x "$magicnumber"]; then
 	printf "\033[32;1mNVIDIA\033[0m"
 	printf " only!\n"
 	printf "This is a workaround to vulkan outright crashing, refer to the readme for more info.\n"
-	printf "Choose:\n [1] for 12\n [2] for 14\n [3] for 16\n [4] for 20\n [5] for 24\nOr anything else to skip this entirely\nOption: "
+	printf "Choose:\n [1] for 12\n [2] for 14 (Turing/ 20 and 16 series cards)\n [3] for 16\n [4] for 20\n [5] for 24 (Pascal/ 10 series cards)\nOr anything else to skip this entirely\nOption: "
 	read magicnumber <&1
 	if [ "$magicnumber" = "1" ]; then
 	    sed -i 's/- 9/- 12/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
