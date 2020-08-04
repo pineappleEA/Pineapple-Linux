@@ -34,7 +34,7 @@ But keep in mind that you may have to update the downloaded script from time to 
 
 ## Magic Number
 **NVIDIA users only!**
-This fixes the issue where vulkan outright crashes when starting a game which is cause by a bug on the nvidia drivers that require allocable_size to be more than 4 MiB. Different values are found to be working with different card. 1080 cards need this to be 24 while 1660 cards work with 14, if you have another card try other numbers and report the one working either using github issues, our discord or email me at epsilonenachannel@gmail.com
+This fixes the issue where vulkan outright crashes when starting a game which is cause by a bug on the nvidia drivers that require allocable_size to be more than 4 MiB. Different values are found to be working with different card. Pascal/10 series cards need this to be 24 while Turing/16 or 20 series cards work with 14, if you have another card try other numbers and report the one working either using github issues, our discord or email me at epsilonenachannel@gmail.com
 
 ## Tips
 - If you have aria2 installed, the script will automatically use it to download yuzu with multiple connections, giving up to a 6x download speed improvement
