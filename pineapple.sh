@@ -83,6 +83,25 @@ rm yuzu-windows-msvc-source-*.tar.xz
 #Compilation
 cd $(ls -d yuzu-windows-msvc-source-*)
 find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
+printf "Magic Number\n"
+printf "\033[32;1mNVIDIA\033[0m"
+printf " only!\n"
+printf "This is a workaround to vulkan outright crashing, refer to the readme for more info.\n"
+printf "Choose:\n [1] for 12\n [2] for 14\n [3] for 16\n [4] for 20\n [5] for 24\nOr anything else to skip this entirely\nOption: "
+read magicnumber <&1
+if [ "$magicnumber" = "1" ]; then
+    sed -i 's/- 9/- 12/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
+elif [ "$magicnumber" = "2" ]; then
+    sed -i 's/- 9/- 14/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
+elif [ "$magicnumber" = "3" ]; then
+    sed -i 's/- 9/- 16/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
+elif [ "$magicnumber" = "4" ]; then
+    sed -i 's/- 9/- 20/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
+elif [ "$magicnumber" = "5" ]; then
+    sed -i 's/- 9/- 24/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
+else
+    :
+fi
 wget https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
 patch -p1 < inject-git-info.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
