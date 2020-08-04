@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
 rm -rf /tmp/pineapple
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
@@ -89,7 +89,7 @@ rm yuzu-windows-msvc-source-*.tar.xz
 #Compilation
 cd $(ls -d yuzu-windows-msvc-source-*)
 find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
-if ! [ -x "$(glxinfo -B | grep "NVIDIA")"] || ! [ -x "$magicnumber"]; then
+if ! [ -x "$(glxinfo -B | grep "NVIDIA")"] || ! [ -x "$magicnumber" ]; then
 	printf "Magic Number\n"
 	printf "\033[32;1mNVIDIA\033[0m"
 	printf " only!\n"
