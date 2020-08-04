@@ -37,7 +37,7 @@ But keep in mind that you may have to update the downloaded script from time to 
 This fixes the issue where vulkan outright crashes when starting a game which is cause by a bug on the nvidia drivers that require allocable_size to be more than 4 MiB. Different values are found to be working with different card. Pascal/10 series cards need this to be 24 while Turing/16 or 20 series cards work with 14, if you have another card try other numbers and report the one working either using github issues, our discord or email me at epsilonenachannel@gmail.com
 
 ## Tips
-- If you have aria2 installed, the script will automatically use it to download yuzu with multiple connections, giving up to a 6x download speed improvement
+- If you have aria2 installed, the script will automatically use it to download yuzu with multiple connections, giving up to a 6x download speed improvement. 
 If you do not have aria2 installed, the script will fall back to the slower wget
 
 - Use ccache to make compilation way faster. Just install the ccache package and add append the path. For arch you can add ```export PATH="/usr/lib/ccache/bin/:$PATH"``` at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files), for debian based distros like ubuntu and mint you can follow the first answer [here](https://askubuntu.com/questions/470545/how-do-i-set-up-ccache).
