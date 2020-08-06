@@ -123,7 +123,7 @@ read install <&1
 if [ "$install" = "n" ]; then
 	mkdir -p ~/earlyaccess
 	mv bin/yuzu ~/earlyaccess/yuzu
-	cd ~/earlyaccess/yuzu
+	cd ~/earlyaccess/
 	rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 	printf '\e[1;32m%-6s\e[m' "The binary sits at ~/earlyaccess/yuzu."
 	printf "\n"
