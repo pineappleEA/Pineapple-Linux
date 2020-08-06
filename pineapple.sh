@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
-rm -rf /tmp/pineapple
+shopt -s extglob
+rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
 while getopts ":n" options; do
     case "${options}" in
@@ -72,9 +73,9 @@ fi
 prompt
 #Download and unzip given version
 if ! [ -x "$(command -v aria2c)" ]; then
-	wget $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+	wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 else
-	aria2c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+    aria2c -c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 fi
 if [ $? -ne 0 ]; then
     printf "Download failed!\n"
@@ -123,7 +124,7 @@ if [ "$install" = "n" ]; then
 	mkdir -p ~/earlyaccess
 	mv bin/yuzu ~/earlyaccess/yuzu
 	cd ~/earlyaccess/yuzu
-	rm -rf /tmp/pineapple/*
+	rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 	printf '\e[1;32m%-6s\e[m' "The binary sits at ~/earlyaccess/yuzu."
 	printf "\n"
 	exit
@@ -133,7 +134,7 @@ fi
 #Install yuzu and cleanup /tmp
 sudo mv bin/yuzu /usr/local/bin/yuzu
 cd /usr/share/pixmaps
-rm -rf /tmp/pineapple/*
+rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
     :
