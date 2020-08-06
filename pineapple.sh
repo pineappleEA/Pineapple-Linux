@@ -8,7 +8,7 @@ while getopts ":n" options; do
     	:)
     esac
 done
-base64 -d <<<"ICAgICAgICAgICAvJCQgICAgICAgICAgIC8kJCQkJCQkJCAgLyQkJCQkJCAgICAgICAgICAgICAg
+echo "ICAgICAgICAgICAvJCQgICAgICAgICAgIC8kJCQkJCQkJCAgLyQkJCQkJCAgICAgICAgICAgICAg
 ICAgICAgICAvJCQgICAgICAgICAgCiAgICAgICAgICB8X18vICAgICAgICAgIHwgJCRfX19fXy8g
 LyQkX18gICQkICAgICAgICAgICAgICAgICAgICB8ICQkICAgICAgICAgIAogIC8kJCQkJCQgIC8k
 JCAvJCQkJCQkJCB8ICQkICAgICAgfCAkJCAgXCAkJCAgLyQkJCQkJCAgIC8kJCQkJCQgfCAkJCAg
@@ -23,14 +23,14 @@ X19fLwp8ICQkICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgJCQgICAg
 ICB8ICQkICAgICAgICAgICAgICAgICAgICAKfCAkJCAgICAgICAgICAgICAgICAgICAgICAgICAg
 ICAgICAgICAgICAgICB8ICQkICAgICAgfCAkJCAgICAgICAgICAgICAgICAgICAgCnxfXy8gICAg
 ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfF9fLyAgICAgIHxfXy8gICAgICAg
-ICAgICAgICAgIA=="
+ICAgICAgICAgIA==" | base64 -d -
 printf "\n"
 printf "on pizza\n"
 printf "Brought to you by EmuWorld!\n"
 #Download and save links currently listed on PinEApple site
 curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
 #Print current version and take user input
-function prompt
+prompt()
 {
 printf "Latest version is "
 latest=$(head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed 's/[^0-9]*//g')
@@ -60,7 +60,7 @@ elif [ "$option" = "3" ]; then
 	exit
 elif [ "$option" = "4" ]; then
 	printf "Discord Invite:\n"
-	base64 -d <<<"aHR0cHM6Ly9kaXNjb3JkLmdnL3dVZUJBc3Y="
+	echo "aHR0cHM6Ly9kaXNjb3JkLmdnL3dVZUJBc3Y=" | base64 -d -
 	printf "\n"
 	sleep 2s
 	prompt
