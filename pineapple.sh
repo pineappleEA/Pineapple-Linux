@@ -1,11 +1,14 @@
 #!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
+filename=""
+initial_wd=`pwd`
 shopt -s extglob
 rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
-while getopts ":n" options; do
+while getopts ":n:f:" options; do
     case "${options}" in
     	n) magicnumber=1;;
+        f) filename=${OPTARG};;
     	:)
     esac
 done
@@ -38,7 +41,11 @@ latest=$(head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed 's/[^0
 printf $latest
 printf "\n"
 printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4] To display Discord Invite\n or anything else to exit.\nOption:"
-read option <&1
+if [ ! -z "$filename" ]; then
+    :
+else
+    read option <&1
+fi
 #execute the given command
 if [ "$option" = "1" ]; then
     title=$latest
@@ -67,6 +74,9 @@ elif [ "$option" = "4" ]; then
 	printf "\n"
 	sleep 2s
 	prompt
+elif [ ! -z "$filename" ]; then
+    printf "\n\e[1;31mUsing local archive!!!\e[0m"
+    cp $initial_wd/$filename /tmp/pineapple/$filename
 else
 	printf "Exiting...\n"
 	exit
@@ -74,7 +84,9 @@ fi
 }
 prompt
 #Download and unzip given version
-if ! [ -x "$(command -v aria2c)" ]; then
+if [ ! -z "$filename" ]; then
+    :
+elif ! [ -x "$(command -v aria2c)" ]; then
 	wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 else
     aria2c -c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
@@ -140,7 +152,7 @@ XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
     :
 else
-	wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml
+    wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml
 	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
 	sudo update-mime-database /usr/share/mime
 fi
