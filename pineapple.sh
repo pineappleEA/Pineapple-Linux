@@ -56,6 +56,7 @@ elif [ "$option" = "3" ]; then
 	sudo rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
 	sudo rm /usr/share/pixmaps/yuzu.svg
 	sudo rm /usr/share/applications/yuzu.desktop
+	sudo rm /usr/share/mime/packages/yuzu.xml
 	sudo update-desktop-database
 	sudo update-mime-database /usr/share/mime
 	printf "Uninstalled successfully\n"
@@ -135,8 +136,13 @@ else
 fi
 #Install yuzu and cleanup /tmp
 sudo mv bin/yuzu /usr/local/bin/yuzu
+XML=/usr/share/mime/packages/yuzu.xml
+if [ -f "$XML" ]; then
+    :
+else
+	sudo mv dist/yuzu.xml /usr/share/mime/packages/yuzu.xml
+fi
 cd /usr/share/pixmaps
-rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
     :
@@ -147,5 +153,6 @@ else
 	sudo update-desktop-database
 	sudo update-mime-database /usr/share/mime
 fi
+rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 printf '\e[1;32m%-6s\e[m' "Installation completed. Use the command yuzu or run it from your launcher."
 printf "\n"
