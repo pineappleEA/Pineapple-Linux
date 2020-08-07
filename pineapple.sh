@@ -135,14 +135,17 @@ else
 fi
 #Install yuzu and cleanup /tmp
 sudo mv bin/yuzu /usr/local/bin/yuzu
+#Mimetype fix
 XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
     :
 else
         wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml
 	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
+	sudo update-mime-database /usr/share/mime
 fi
 cd /usr/share/pixmaps
+#Launcher shortcut
 FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
     :
@@ -151,7 +154,6 @@ else
 	sudo cp /usr/share/pixmaps/yuzu.svg /usr/share/icons/hicolor/scalable/apps/yuzu.svg
 	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.desktop > /usr/share/applications/yuzu.desktop"
 	sudo update-desktop-database
-	sudo update-mime-database /usr/share/mime
 fi
 rm -rf /tmp/pineapple/!(*.7z|*.aria2)
 printf '\e[1;32m%-6s\e[m' "Installation completed. Use the command yuzu or run it from your launcher."
