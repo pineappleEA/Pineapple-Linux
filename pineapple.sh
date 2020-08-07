@@ -140,7 +140,7 @@ XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
     :
 else
-        wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml
+	wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml
 	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
 	sudo update-mime-database /usr/share/mime
 fi
