@@ -113,9 +113,8 @@ if [ "$(lspci | grep "NVIDIA")" ] || [ "$magicnumber" ]; then
 	    :
 	fi
 fi
-wget https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/{inject-git-info,mime-type}.patch
+wget https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
 patch -p1 < inject-git-info.patch
-patch -p1 < mime-type.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
 cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON
@@ -140,7 +139,8 @@ XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
     :
 else
-	sudo mv dist/yuzu.xml /usr/share/mime/packages/yuzu.xml
+        wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml
+	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
 fi
 cd /usr/share/pixmaps
 FILE=/usr/share/applications/yuzu.desktop
