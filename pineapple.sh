@@ -57,6 +57,7 @@ elif [ "$option" = "3" ]; then
 	sudo rm /usr/share/pixmaps/yuzu.svg
 	sudo rm /usr/share/applications/yuzu.desktop
 	sudo update-desktop-database
+	sudo update-mime-database /usr/share/mime
 	printf "Uninstalled successfully\n"
 	exit
 elif [ "$option" = "4" ]; then
@@ -144,6 +145,7 @@ else
 	sudo cp /usr/share/pixmaps/yuzu.svg /usr/share/icons/hicolor/scalable/apps/yuzu.svg
 	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.desktop > /usr/share/applications/yuzu.desktop"
 	sudo update-desktop-database
+	sudo update-mime-database /usr/share/mime
 fi
 printf '\e[1;32m%-6s\e[m' "Installation completed. Use the command yuzu or run it from your launcher."
 printf "\n"
