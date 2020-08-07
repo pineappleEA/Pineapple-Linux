@@ -111,9 +111,9 @@ if [ "$(lspci | grep "NVIDIA")" ] || [ "$magicnumber" ]; then
 	    :
 	fi
 fi
-wget https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/{inject-git-info,extension-metadata}.patch
+wget https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/{inject-git-info,mime-type}.patch
 patch -p1 < inject-git-info.patch
-patch -p1 < extension-metadata.patch
+patch -p1 < mime-type.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
 cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON
