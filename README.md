@@ -21,17 +21,18 @@ Either get conan manually from [here](https://conan.io/downloads.html) or use ``
 ## Usage
 Run the script using 
 
-``curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | sh``
-
+``curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | sh  -s --``
+You can append any arguments after --.
 If you wanna call the updater using a command, you can append an alias to your .bash_rc/.zshrc. For example, adding
 
-```alias pineapple="curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | sh"``` 
+```alias pineapple="curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | sh -s --"``` 
 will run the script when you type in the command ```pineapple```.
 
 Alternatively, download the script using ```wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh``` and run it using ```sh pineapple.sh```.
 
 But keep in mind that you may have to update the downloaded script from time to time.
 
+- To use a local archive use the -f flag plus the path of the file or the file name if it's in the current working directory.
 ## Magic Number
 **NVIDIA users only!**
 This fixes the issue where vulkan outright crashes when starting a game which is cause by a bug on the nvidia drivers that require allocable_size to be more than 4 MiB. Different values are found to be working with different card. Pascal/10 series cards need this to be 24 while Turing/16 or 20 series cards work with 14, if you have another card try other numbers and report the one working either using github issues, our discord or email me at epsilonenachannel@gmail.com.
