@@ -1,9 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
 filename=""
 initial_wd=`pwd`
-shopt -s extglob
-rm -rf /tmp/pineapple/!(*.7z|*.aria2)
+find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
 while getopts ":n:f:" options; do
     case "${options}" in
@@ -138,7 +137,7 @@ if [ "$install" = "n" ]; then
 	mkdir -p ~/earlyaccess
 	mv bin/yuzu ~/earlyaccess/yuzu
 	cd ~/earlyaccess/
-	rm -rf /tmp/pineapple/!(*.7z|*.aria2)
+	find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
 	printf '\e[1;32m%-6s\e[m' "The binary sits at ~/earlyaccess/yuzu."
 	printf "\n"
 	exit
@@ -167,6 +166,6 @@ else
 	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.desktop > /usr/share/applications/yuzu.desktop"
 	sudo update-desktop-database
 fi
-rm -rf /tmp/pineapple/!(*.7z|*.aria2)
+find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
 printf '\e[1;32m%-6s\e[m' "Installation completed. Use the command yuzu or run it from your launcher."
 printf "\n"
