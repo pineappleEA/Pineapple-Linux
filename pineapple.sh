@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #Print pretty pineapple text and prepare environment
 filename=""
 initial_wd=`pwd`
