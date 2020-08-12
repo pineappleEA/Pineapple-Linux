@@ -46,4 +46,4 @@ If you do not have aria2 installed, the script will fall back to the slower wget
 
 - If you have an Nvidia gpu you can boost performance by adding ```env LD_PRELOAD="libpthread.so.0 libGL.so.1" __GL_THREADED_OPTIMIZATIONS=1 ``` after ```Exec=``` on the yuzu.desktop file located in /usr/share/applications (you'll need sudo to edit it).
 
-- For AMD GPUs that will be ```glsl_zero_init=true MESA_EXTENSION_OVERRIDE="-GL_KHR_texture_compression_astc_ldr -GL_KHR_texture_compression_astc_sliced_3d" mesa_glthread=true```
+- For AMD/Intel GPUs that would be ```glsl_zero_init=true MESA_EXTENSION_OVERRIDE="-GL_KHR_texture_compression_astc_ldr -GL_KHR_texture_compression_astc_sliced_3d" mesa_glthread=true```
