@@ -1,14 +1,18 @@
 #!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
 filename=""
-initial_wd=`pwd`
+initial_wd="$(pwd)"
+[ -x "$(command -v aria2c)" ] && downloader="aria2c -c -x 6 -s 6" || downloader="wget -N -c"
+_error() { echo "$1" ; exit 1 ; }
 find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
-mkdir -p /tmp/pineapple && cd /tmp/pineapple
+mkdir -p /tmp/pineapple 
+cd /tmp/pineapple || _error "dir /tmp/pineapple not found"
 while getopts ":n:f:" options; do
     case "${options}" in
     	n) magicnumber=1;;
         f) filename=${OPTARG};;
-    	:)
+    	:) ;;
+	*) echo "invalid flag, see readme";;
     esac
 done
 echo "ICAgICAgICAgICAvJCQgICAgICAgICAgIC8kJCQkJCQkJCAgLyQkJCQkJCAgICAgICAgICAgICAg
@@ -39,25 +43,25 @@ prompt()
 {
 printf "Latest version is "
 latest=$(head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed 's/[^0-9]*//g')
-printf $latest
+printf '%s' "$latest"
 printf "\n"
 printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4] To display Discord Invite\n or anything else to exit.\nOption:"
-if [ ! -z "$filename" ]; then
+if [ -n "$filename" ]; then
     :
 else
-    read option <&1
+    read -r option <&1
 fi
 #execute the given command
 if [ "$option" = "1" ]; then
-    title=$latest
-	curl -s $(head -n 1 version.txt | grep -o 'https.*7z') > version.txt
+	title="$latest"
+	curl -s "$(grep -m1 -o 'https.*7z' version.txt )" > version.txt
 elif [ "$option" = "2" ]; then
 	printf "Available versions:\n"
 	uniq version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed -e ':a;N;$!ba;s/\n/,/g' -e 's/\EA //g'
 	printf "Choose version number:"
-	read version <&1
-	title=$version
-	curl -s $(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z') > version.txt
+	read -r version <&1
+	title="$version"
+	curl -s "$(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z')" > version.txt
 elif [ "$option" = "3" ]; then
 	printf "\nUninstalling...\n"
 	sudo rm /usr/local/bin/yuzu
@@ -75,9 +79,9 @@ elif [ "$option" = "4" ]; then
 	printf "\n"
 	sleep 2s
 	prompt
-elif [ ! -z "$filename" ]; then
+elif [ -n "$filename" ]; then
     printf "\n\e[1;31mUsing local archive!!!\e[0m"
-    cp $initial_wd/$filename /tmp/pineapple/$filename
+    cp "$initial_wd/$filename" "/tmp/pineapple/$filename"
 else
 	printf "Exiting...\n"
 	exit
@@ -85,33 +89,29 @@ fi
 }
 prompt
 #Download and unzip given version
-if [ ! -z "$filename" ]; then
+if [ -n "$filename" ]; then
     :
-elif ! [ -x "$(command -v aria2c)" ]; then
-	wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 else
-    aria2c -c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
-fi
-if [ $? -ne 0 ]; then
-    printf "Download failed!\n"
-    printf "If you are in Italy or Iran, please use a VPN in another country\n"
-    printf "otherwise, please try again in a few minutes\n"
-    exit
+    eval "$downloader" "$(grep -o 'https://cdn-.*.7z' version.txt | head -n 1)" || printf '%s\n' \
+"Download failed!
+If you are in Italy or Iran, please use a VPN in another country
+otherwise, please try again in a few minutes"
+
 fi
 7z x Yuzu* yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
-cd yuzu-windows-msvc-early-access
+cd yuzu-windows-msvc-early-access || _error "dir yuzu-windows-msvc-early-access not found"
 tar -xf yuzu-windows-msvc-source-*
 rm yuzu-windows-msvc-source-*.tar.xz 
 #Compilation
-cd $(ls -d yuzu-windows-msvc-source-*)
-find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
-if [ "$(lspci | grep "NVIDIA")" ] || [ "$magicnumber" ]; then
+cd "$(ls -d yuzu-windows-msvc-source-*)" || _error "dir yuzu-windows-msvc-source-* not found"
+find . -path dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
+if lspci | grep -q "NVIDIA" || [ "$magicnumber" ]; then
 	printf "Magic Number\n"
 	printf "\033[32;1mNVIDIA\033[0m"
 	printf " only!\n"
 	printf "This is a workaround to vulkan outright crashing, refer to the readme for more info.\n"
 	printf "Choose:\n [1] for 12\n [2] for 14 (Turing/ 20 and 16 series cards)\n [3] for 16\n [4] for 20\n [5] for 24 (Pascal/ 10 series cards)\nOr anything else to skip this entirely\nOption: "
-	read magicnumber <&1
+	read -r magicnumber <&1
 	if [ "$magicnumber" = "1" ]; then
 	    sed -i 's/- 9/- 12/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
 	elif [ "$magicnumber" = "2" ]; then
@@ -129,16 +129,16 @@ fi
 wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
 patch -p1 < inject-git-info.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
-mkdir -p build && cd build
+mkdir -p build && cd build || _error "dir build not found"
 cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON
-ninja -j $(nproc)
+ninja -j "$(nproc)"
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
-read install <&1
+read -r install <&1
 #Save compiler output to ~/earlyaccess/yuzu and cleanup /tmp if user doesn't want to install
 if [ "$install" = "n" ]; then
 	mkdir -p ~/earlyaccess
 	mv bin/yuzu ~/earlyaccess/yuzu
-	cd ~/earlyaccess/
+	cd ~/earlyaccess/ || _error "dir earlyaccess not found"
 	find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
 	printf '\e[1;32m%-6s\e[m' "The binary sits at ~/earlyaccess/yuzu."
 	printf "\n"
@@ -157,7 +157,7 @@ else
 	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
 	sudo update-mime-database /usr/share/mime
 fi
-cd /usr/share/pixmaps
+cd /usr/share/pixmaps || _error "dir /usr/share/pixmaps not found"
 #Launcher shortcut
 FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
