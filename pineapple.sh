@@ -130,8 +130,14 @@ wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inj
 patch -p1 < inject-git-info.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
-cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON
-ninja -j $(nproc)
+cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON && ninja -j $(nproc)
+if [ $? -ne 0 ]; then
+	printf "\n------------------------------------------------------------------------------\n"
+    printf "It seems like the compilation failed!\n"
+    printf "You might want to try an older version of yuzu\n"
+    printf "If that doesn't help, feel free to contact us on discord in the #linux channel\n"
+    exit
+fi
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
 read install <&1
 #Save compiler output to ~/earlyaccess/yuzu and cleanup /tmp if user doesn't want to install
