@@ -84,7 +84,7 @@ prompt
 #Download and unzip given version
 if ! [ -x "$(command -v aria2c)" ]; then
     prinf "You are missing aria2, downloading using the slower fallback wget method."
-	wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+    wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 else
     aria2c -c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 fi
