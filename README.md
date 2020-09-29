@@ -32,7 +32,6 @@ Alternatively, download the script using ```wget https://raw.githubusercontent.c
 
 But keep in mind that you may have to update the downloaded script from time to time.
 
-- To use a local archive use the -f flag plus the path of the file or the file name if it's in the current working directory.
 ## Magic Number
 **NVIDIA users only!**
 This fixes the issue where vulkan outright crashes when starting a game which is cause by a bug on the nvidia drivers that require allocable_size to be more than 4 MiB. Different values are found to be working with different card. Pascal/10 series cards need this to be 24 while Turing/16 or 20 series cards work with 14, if you have another card try other numbers and report the one working either using github issues, our discord or email me at epsilonenachannel@gmail.com.
