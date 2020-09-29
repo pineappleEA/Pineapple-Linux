@@ -51,7 +51,13 @@ elif [ "$option" = "2" ]; then
 	printf "Choose version number:"
 	read version <&1
 	title=$version
-	curl -s $(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z') > version.txt
+	old_ver="\s${version}</a><br>"
+	if [[ $(grep "$old_ver" version.txt) ]]; then
+        curl -s $(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z') > version.txt
+    else
+        echo "Wrong version number, exiting..."
+        exit
+	fi
 elif [ "$option" = "3" ]; then
 	printf "\nUninstalling...\n"
 	sudo rm /usr/local/bin/yuzu
@@ -77,6 +83,7 @@ fi
 prompt
 #Download and unzip given version
 if ! [ -x "$(command -v aria2c)" ]; then
+    prinf "You are missing aria2, downloading using the slower fallback wget method."
 	wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 else
     aria2c -c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
