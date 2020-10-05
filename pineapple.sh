@@ -130,7 +130,9 @@ mkdir -p build && cd build
 cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON && ninja -j $(nproc)
 if [ $? -ne 0 ]; then
 	printf "\n------------------------------------------------------------------------------\n"
-    printf "It seems like the compilation failed!\n"
+    printf "Compilation failed but fear not, you can always use our precompiled Appimages (includes autoupdater) and binaries at:\n"
+    printf "https://github.com/pineappleEA/pineappleEA.github.io/releases\n"
+    printf "If you see a compilation error please report it on our discord.\n"
     printf "You might want to try an older version of yuzu\n"
     printf "If that doesn't help, feel free to contact us on discord in the #linux channel\n"
     exit
