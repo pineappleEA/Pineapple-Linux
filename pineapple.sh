@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
 initial_wd=`pwd`
-find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
+find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' 2>/dev/null | sort -n -r | xargs rm -rf --
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
 while getopts ":n" options; do
     case "${options}" in
