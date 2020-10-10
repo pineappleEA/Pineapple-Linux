@@ -90,8 +90,7 @@ else
 fi
 if [ $? -ne 0 ]; then
     printf "Download failed!\n"
-    printf "We are sorry for the inconvenience but our host, anonfiles implemented captcha. We are working to resolve the issue."
-\n"
+    printf "We are sorry for the inconvenience but our host, anonfiles implemented captcha. We are working to resolve the issue.\n"
     printf "As a temporary fix grab the latest appimage from https://edisionnano.github.io/\n"
     exit
 fi
