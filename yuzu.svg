@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:version="1.0 (4035a4fb49, 2020-05-01)" sodipodi:docname="yuzu.svg" version="1.1" viewBox="0 0 614.4 682.67" id="svg815">
+  <metadata id="metadata27">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title>Artboard 1</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview inkscape:current-layer="g823" inkscape:window-maximized="1" inkscape:window-y="0" inkscape:window-x="0" inkscape:cy="341.33499" inkscape:cx="128.40549" inkscape:zoom="1.0766549" showgrid="false" id="namedview25" inkscape:window-height="1173" inkscape:window-width="1600" inkscape:pageshadow="2" inkscape:pageopacity="0" guidetolerance="10" gridtolerance="10" objecttolerance="10" borderopacity="1" bordercolor="#666666" pagecolor="#ffffff"/>
+  <defs id="defs7">
+    <style id="style2">.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:#ff3c28;}.cls-4{fill:#0ab9e6;}</style>
+    <clipPath id="clip-path">
+      <rect id="rect4" height="777.33" width="699.6" y="-46.67" x="-43" class="cls-1"/>
+    </clipPath>
+  </defs>
+  <title id="title9">Artboard 1</title>
+  <g id="g823">
+    <g id="right">
+      <g id="g14" clip-path="url(#clip-path)" class="cls-2">
+        <g transform="translate(-732.98023,-9.6049219)" id="g827">
+          <g id="g833">
+            <path d="m 340.81,138 v 544.08 c 150.26,0 272.06,-121.81 272.06,-272.06 C 612.87,259.77 491.07,138 340.81,138 M 394,197.55 a 219.06,219.06 0 0 1 0,424.94 V 197.55" class="cls-3" id="path835"/>
+          </g>
+        </g>
+        <path id="path888" d="M 344.41367,410.06251 V 138.7605 l 10.91343,0.61303 c 51.89769,2.91518 97.19053,17.60156 137.83986,44.69514 67.63562,45.08046 110.89803,115.61093 120.24492,196.03463 1.85265,15.9407 1.33237,53.22438 -0.94425,67.66735 -8.35843,53.02612 -27.97976,97.14879 -60.33368,135.67292 -11.40683,13.58222 -31.14115,32.2677 -45.28487,42.87808 -42.7788,32.09191 -91.26938,50.26411 -144.33287,54.08975 -7.14677,0.51525 -14.14352,0.94049 -15.54833,0.94497 l -2.55421,0.008 z m 68.56908,208.6288 c 34.92001,-11.96103 62.52017,-28.98633 86.39133,-53.29095 21.10164,-21.48481 35.57588,-42.62753 46.18418,-67.46186 32.35398,-75.74162 20.93514,-161.54027 -29.9771,-225.24109 -7.81622,-9.77956 -23.43571,-25.52857 -33.07724,-33.35152 -19.20707,-15.58423 -45.17543,-29.87755 -68.43005,-37.6648 -13.64247,-4.56843 -16.22719,-4.98505 -17.08348,-2.7536 -0.73447,1.914 -0.71307,419.0911 0.0217,421.83266 0.31181,1.16353 1.28464,2.08981 2.19482,2.08981 0.89913,0 7.09828,-1.87139 13.77589,-4.15865 z" style="fill:#c6c6c6;fill-opacity:1;stroke-width:0.928803"/>
+      </g>
+    </g>
+    <g style="fill:#ffdc00;fill-opacity:1" id="left">
+      <g style="fill:#ffdc00;fill-opacity:1" id="g20" clip-path="url(#clip-path)" class="cls-2">
+        <g style="fill:#ffdc00;fill-opacity:1" id="g839">
+          <g style="fill:#ffdc00;fill-opacity:1" id="g845">
+            <path style="fill:#ffdc00;fill-opacity:1" d="M272.79,1.92C122.53,1.92.73,123.73.73,274s121.8,272.07,272.06,272.07ZM219.65,61.51v425A219,219,0,0,1,118,119.18,217.51,217.51,0,0,1,219.65,61.51" class="cls-4" id="path847"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
