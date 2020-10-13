@@ -1,14 +1,10 @@
-#!/usr/bin/env sh
-#Print pretty pineapple text and prepare environment
-initial_wd=`pwd`
-find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' 2>/dev/null | sort -n -r | xargs rm -rf --
+#Clean old files (minus archive), prepare the env
+find /tmp/pineapple/* ! -name '*.7z' 2>/dev/null | sort -n -r | xargs rm -rf --
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
-while getopts ":n" options; do
-    case "${options}" in
-    	n) magicnumber=1;;
-    	:)
-    esac
-done
+#Download and save links currently listed on PinEApple site
+curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html| sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 | uniq > version.txt
+latest=$(head -n 1 version.txt | sed -n 's:.*EA \(.*\)</a>.*:\1:p')
+#Print UwU text
 echo "ICAgICAgICAgICAvJCQgICAgICAgICAgIC8kJCQkJCQkJCAgLyQkJCQkJCAgICAgICAgICAgICAg
 ICAgICAgICAvJCQgICAgICAgICAgCiAgICAgICAgICB8X18vICAgICAgICAgIHwgJCRfX19fXy8g
 LyQkX18gICQkICAgICAgICAgICAgICAgICAgICB8ICQkICAgICAgICAgIAogIC8kJCQkJCQgIC8k
@@ -25,75 +21,57 @@ ICB8ICQkICAgICAgICAgICAgICAgICAgICAKfCAkJCAgICAgICAgICAgICAgICAgICAgICAgICAg
 ICAgICAgICAgICAgICB8ICQkICAgICAgfCAkJCAgICAgICAgICAgICAgICAgICAgCnxfXy8gICAg
 ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfF9fLyAgICAgIHxfXy8gICAgICAg
 ICAgICAgICAgIA==" | base64 -d -
-printf "\n"
-printf "on pizza\n"
-printf "Brought to you by EmuWorld!\n"
-printf "\e[91m$(tput bold)NOW BACK FROM THE DEAD!\e[0m "
-printf "Check option 4 to get a new invite.\n"
-#Download and save links currently listed on PinEApple site
-curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
-#Print current version and take user input
+printf "\non pizza\nBrought to you by EmuWorld!\n\e[91m$(tput bold)NOW BACK FROM THE DEAD!\e[0m Check option 4 to get a new invite.\nLatest yuzu EA version is $latest\n"
 prompt()
 {
-printf "Latest version is "
-latest=$(head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed 's/[^0-9]*//g')
-printf $latest
-printf "\n"
-printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4] To display Discord Invite\n or anything else to exit.\nOption:"
-read option <&1
-#execute the given command
-if [ "$option" = "1" ]; then
-    title=$latest
-	curl -s $(head -n 1 version.txt | grep -o 'https.*7z') > version.txt
-elif [ "$option" = "2" ]; then
-	printf "Available versions:\n"
-	uniq version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed -e ':a;N;$!ba;s/\n/,/g' -e 's/\EA //g'
-	printf "Choose version number:"
-	read version <&1
-	title=$version
-	old_ver="\s${version}</a><br>"
-	if [[ $(grep "$old_ver" version.txt) ]]; then
-        curl -s $(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z') > version.txt
-    else
-        echo "Wrong version number, exiting..."
+    printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4] To display Discord Invite\n or anything else to exit.\nOption:"
+    read option <&1
+    if [ "$option" = "1" ]; then
+        id=$(head -n 1 version.txt | sed -n 's:.*<!--\(.*\)-->.*:\1:p')
+        version=$latest
+    elif [ "$option" = "2" ]; then
+        old=$(tail -n+2 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed -e ':a;N;$!ba;s/\n/,/g' | sed 's/EA //g')
+        printf "Available older versions:\n$old\nChoose old version:"
+        read title <&1
+        version=$title
+        old_ver="\s${version}</a><br>"
+        if [[ $(grep "$old_ver" version.txt) ]]; then
+            line_num=$(grep -n $version version.txt | cut -f1 -d:)
+            id=$(head -$line_num version.txt | tail -1 | sed -n 's:.*/d/\(.*\)/view.*:\1:p')
+        else
+            echo "Wrong version number, exiting..."
+            exit
+        fi
+    elif [ "$option" = "3" ]; then
+        printf "\nUninstalling...\n"
+        sudo rm /usr/local/bin/yuzu
+        sudo rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
+        sudo rm /usr/share/pixmaps/yuzu.svg
+        sudo rm /usr/share/applications/yuzu.desktop
+        sudo rm /usr/share/mime/packages/yuzu.xml
+        sudo update-desktop-database
+        sudo update-mime-database /usr/share/mime
+        printf "Uninstalled successfully\n"
         exit
-	fi
-elif [ "$option" = "3" ]; then
-	printf "\nUninstalling...\n"
-	sudo rm /usr/local/bin/yuzu
-	sudo rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
-	sudo rm /usr/share/pixmaps/yuzu.svg
-	sudo rm /usr/share/applications/yuzu.desktop
-	sudo rm /usr/share/mime/packages/yuzu.xml
-	sudo update-desktop-database
-	sudo update-mime-database /usr/share/mime
-	printf "Uninstalled successfully\n"
-	exit
-elif [ "$option" = "4" ]; then
-	printf "Discord Invite:\n"
-	echo "aHR0cHM6Ly9kaXNjb3JkLmdnL2NVNjRGR1o=" | base64 -d -
-	printf "\n"
-	sleep 2s
-	prompt
-else
-	printf "Exiting...\n"
-	exit
-fi
+    elif [ "$option" = "4" ]; then
+        printf "Discord Invite:\n"
+        echo "aHR0cHM6Ly9kaXNjb3JkLmdnL2NVNjRGR1o=" | base64 -d -
+        printf "\n"
+        sleep 2s
+        prompt
+    else
+        printf "Exiting...\n"
+        exit
+    fi
 }
 prompt
-#Download and unzip given version
-if ! [ -x "$(command -v aria2c)" ]; then
-    printf "You are missing aria2, downloading using the slower fallback wget method."
-    wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
-else
-    aria2c -c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
-fi
-if [ $? -ne 0 ]; then
-    printf "Download failed!\n"
-    printf "We are sorry for the inconvenience but our host, anonfiles implemented captcha. We are working to resolve the issue.\n"
-    printf "As a temporary fix grab the latest appimage from https://edisionnano.github.io/\n"
-    exit
-fi
+#Download from gdrive
+printf "Connecting to Google Drive(this may take some time)..."
+filename="YuzuEA-$version.7z"
+curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${id}" > /dev/null
+printf "\n"
+curl -Lb ./cookie -C - "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=${id}" -o ${filename}
+#Extract the archive
 7z x Yuzu* yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
 cd yuzu-windows-msvc-early-access
 tar -xf yuzu-windows-msvc-source-*
@@ -102,39 +80,13 @@ rm yuzu-windows-msvc-source-*.tar.xz
 cd $(ls -d yuzu-windows-msvc-source-*)
 find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
 find . -exec touch {} +
-if [ "$magicnumber" ]; then
-	printf "Magic Number\n"
-	printf "\033[32;1mNVIDIA\033[0m"
-	printf " only!\n"
-	printf "This is a workaround to vulkan outright crashing, refer to the readme for more info.\n"
-	printf "Choose:\n [1] for 12\n [2] for 14 (Turing/ 20 and 16 series cards)\n [3] for 16\n [4] for 20\n [5] for 24 (Pascal/ 10 series cards)\nOr anything else to skip this entirely\nOption: "
-	read magicnumber <&1
-	if [ "$magicnumber" = "1" ]; then
-	    sed -i 's/- 9/- 12/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
-	elif [ "$magicnumber" = "2" ]; then
-	    sed -i 's/- 9/- 14/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
-	elif [ "$magicnumber" = "3" ]; then
-	    sed -i 's/- 9/- 16/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
-	elif [ "$magicnumber" = "4" ]; then
-	    sed -i 's/- 9/- 20/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
-	elif [ "$magicnumber" = "5" ]; then
-	    sed -i 's/- 9/- 24/g' src/video_core/renderer_vulkan/vk_stream_buffer.cpp
-	else
-	    :
-	fi
-fi
 wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
 patch -p1 < inject-git-info.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
-cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON && ninja -j $(nproc)
+cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $version" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $version | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON && ninja -j $(nproc)
 if [ $? -ne 0 ]; then
-	printf "\n------------------------------------------------------------------------------\n"
-    printf "Compilation failed but fear not, you can always use our precompiled Appimages (includes autoupdater) and binaries at:\n"
-    printf "https://github.com/pineappleEA/pineappleEA.github.io/releases\n"
-    printf "If you see a compilation error please report it on our discord.\n"
-    printf "You might want to try an older version of yuzu\n"
-    printf "If that doesn't help, feel free to contact us on discord in the #linux channel\n"
+	printf "\n------------------------------------------------------------------------------\nCompilation failed but fear not, you can always use our precompiled Appimages (includes autoupdater) and binaries at:\nhttps://edisionnano.github.io/\nIf you see a compilation error please check that you have all the dependencies and report it on our discord server.\nYou might want to try an older version of yuzu\nIf that doesn't help, feel free to contact us on discord in the #linux channel\n"
     exit
 fi
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
@@ -145,8 +97,7 @@ if [ "$install" = "n" ]; then
 	mv bin/yuzu ~/earlyaccess/yuzu
 	cd ~/earlyaccess/
 	find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
-	printf '\e[1;32m%-6s\e[m' "The binary sits at ~/earlyaccess/yuzu."
-	printf "\n"
+	printf '\e[1;32m%-6s\e[m' "The binary sits at ~/earlyaccess/yuzu.\n"
 	exit
 else
     :
@@ -173,6 +124,5 @@ else
 	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.desktop > /usr/share/applications/yuzu.desktop"
 	sudo update-desktop-database
 fi
-find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
-printf '\e[1;32m%-6s\e[m' "Installation completed. Use the command yuzu or run it from your launcher."
-printf "\n"
+find /tmp/pineapple/* ! -name '*.7z' | sort -n -r | xargs rm -rf --
+printf '\e[1;32m%-6s\e[m' "Installation completed. Use the command yuzu or run it from your launcher.\n"
