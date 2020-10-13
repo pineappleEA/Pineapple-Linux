@@ -36,7 +36,7 @@ curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/mast
 prompt()
 {
 printf "Latest version is "
-latest=$(head -n 1 version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed 's/[^0-9]*//g')
+latest=$(head -n 1 version.txt | grep -o 'EA [0-9]*' | sed 's/[^0-9]*//g')
 printf $latest
 printf "\n"
 printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4] To display Discord Invite\n or anything else to exit.\nOption:"
@@ -47,7 +47,7 @@ if [ "$option" = "1" ]; then
 	curl -s $(head -n 1 version.txt | grep -o 'https.*7z') > version.txt
 elif [ "$option" = "2" ]; then
 	printf "Available versions:\n"
-	uniq version.txt | grep -o 'EA .*' | tr -d '</a><br>' | sed -e ':a;N;$!ba;s/\n/,/g' -e 's/\EA //g'
+	uniq version.txt | grep -o 'EA [0-9]*' | sed -e ':a;N;$!ba;s/\n/,/g' -e 's/\EA //g'
 	printf "Choose version number:"
 	read version <&1
 	title=$version
