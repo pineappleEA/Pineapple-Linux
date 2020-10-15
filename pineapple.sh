@@ -94,7 +94,7 @@ if [ $? -ne 0 ]; then
     printf "As a temporary fix grab the latest appimage from https://edisionnano.github.io/\n"
     exit
 fi
-ZIPNAME=YuzuEA-$(title).7z
+ZIPNAME=YuzuEA-$title.7z
 7z x $ZIPNAME yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
 cd yuzu-windows-msvc-early-access
 tar -xf yuzu-windows-msvc-source-*
