@@ -96,7 +96,12 @@ if [ $? -ne 0 ]; then
 fi
 ZIPNAME=YuzuEA-$title.7z
 7z x $ZIPNAME yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
-cd yuzu-windows-msvc-early-access
+if [ -d "yuzu-windows-msvc-early-access" ]; then
+	cd yuzu-windows-msvc-early-access
+else
+	printf "Extraction faile, please report.\nGrab the latest appimage from https://edisionnano.github.io/\n"
+	exit
+fi
 tar -xf yuzu-windows-msvc-source-*
 rm yuzu-windows-msvc-source-*.tar.xz 
 #Compilation
