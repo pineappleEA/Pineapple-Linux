@@ -3,7 +3,7 @@ find /tmp/pineapple/* ! -name '*.7z' 2>/dev/null | sort -n -r | xargs rm -rf --
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
 #Download and save links currently listed on PinEApple site
 curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html| sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 | uniq > version.txt
-latest=$(head -n 1 version.txt | sed -n 's:.*EA \(.*\)</a>.*:\1:p')
+latest=$(head -n 1 version.txt | sed -n 's:.*EA [0-9]*')
 #Print UwU text
 echo "ICAgICAgICAgICAvJCQgICAgICAgICAgIC8kJCQkJCQkJCAgLyQkJCQkJCAgICAgICAgICAgICAg
 ICAgICAgICAvJCQgICAgICAgICAgCiAgICAgICAgICB8X18vICAgICAgICAgIHwgJCRfX19fXy8g
@@ -72,8 +72,14 @@ curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${id}" > 
 printf "\n"
 curl -Lb ./cookie -C - "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=${id}" -o ${filename}
 #Extract the archive
-7z x Yuzu* yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
-cd yuzu-windows-msvc-early-access
+ZIPNAME=YuzuEA-$title.7z
+7z x $ZIPNAME yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
+if [ -d "yuzu-windows-msvc-early-access" ]; then
+	cd yuzu-windows-msvc-early-access
+else
+	printf "Extraction faile, please report.\nGrab the latest appimage from https://edisionnano.github.io/\n"
+	exit
+fi
 tar -xf yuzu-windows-msvc-source-*
 rm yuzu-windows-msvc-source-*.tar.xz 
 #Compilation
