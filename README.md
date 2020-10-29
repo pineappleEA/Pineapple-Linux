@@ -14,7 +14,7 @@ or get conan from aur manually.
 ```sudo apt-get install p7zip-full git build-essential ninja-build cmake libsdl2-dev qtbase5-dev libqt5opengl5-dev qtwebengine5-dev qtbase5-private-dev python python3-pip libboost-dev libboost-context-dev libzip-dev liblz4-dev libmbedtls-dev libssl-dev libopus-dev zlib1g-dev libzstd-dev libavcodec-dev libavutil-dev libswscale-dev```
 Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
 ### Fedora
-```sudo dnf install p7zip p7zip-plugins git gcc ninja-build cmake SDL2-devel qt5-qtbase-devel python2 python-pip boost-devel fmt-devel libfontenc-devel libXaw-devel libzip-devel libzstd-devel lz4-devel mbedtls-devel openssl-devel opus-devel zlib-devel && sudo pip install conan```
+```sudo dnf install p7zip p7zip-plugins git gcc ninja-build cmake SDL2-devel qt5-qtbase-devel python2 python-pip boost-devel fmt-devel libfontenc-devel libXaw-devel libXdmcp-devel libzip-devel libzstd-devel lz4-devel mbedtls-devel openssl-devel opus-devel zlib-devel && sudo pip install conan```
 ### Gentoo
 ```emerge dev-vcs/git dev-qt/qtwebengine app-arch/p7zip =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
       
