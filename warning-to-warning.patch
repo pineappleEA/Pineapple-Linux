@@ -1,0 +1,21 @@
+From 0ce9148a24d8060e226f9815b611ab7852c0730e Mon Sep 17 00:00:00 2001
+From: edisionnano <samantas5855@gmail.com>
+Date: Thu, 5 Nov 2020 11:22:27 +0200
+Subject: [PATCH] Update CMakeLists.txt
+
+---
+ src/common/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/common/CMakeLists.txt b/src/common/CMakeLists.txt
+index 207c7a0a614..e68cfb6ad8e 100644
+--- a/src/common/CMakeLists.txt
++++ b/src/common/CMakeLists.txt
+@@ -202,7 +202,7 @@ if (MSVC)
+   )
+ else()
+   target_compile_options(common PRIVATE
+-    -Werror
++    -W
+   )
+ endif()
