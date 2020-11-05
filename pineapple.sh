@@ -43,7 +43,7 @@ printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4
 read option <&1
 #execute the given command
 if [ "$option" = "1" ]; then
-    title=$latest
+    	title=$latest
 	curl -s $(head -n 1 version.txt | grep -o 'https.*7z') > version.txt
 elif [ "$option" = "2" ]; then
 	printf "Available versions:\n"
@@ -52,7 +52,8 @@ elif [ "$option" = "2" ]; then
 	read version <&1
 	title=$version
 	old_ver="\s${version}</a><br>"
-	if [[ $(grep "$old_ver" version.txt) ]]; then
+	exists=$(grep "$old_ver" version.txt)
+	if [ "$exists" ]; then
         curl -s $(grep "YuzuEA-$version" version.txt | grep -o 'https.*7z') > version.txt
     else
         echo "Wrong version number, exiting..."
@@ -129,8 +130,9 @@ if [ "$magicnumber" ]; then
 	    :
 	fi
 fi
-wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
+wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/{inject-git-info,warning-to-warning}.patch
 patch -p1 < inject-git-info.patch
+patch -p1 < warning-to-warning.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
 cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON && ninja -j $(nproc)
