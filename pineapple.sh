@@ -130,7 +130,8 @@ if [ "$magicnumber" ]; then
 	    :
 	fi
 fi
-wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/{inject-git-info,warning-to-warning}.patch
+wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
+wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/warning-to-warning.patch
 patch -p1 < inject-git-info.patch
 patch -p1 < warning-to-warning.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
