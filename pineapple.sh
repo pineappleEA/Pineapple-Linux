@@ -30,6 +30,7 @@ printf "on pizza\n"
 printf "Brought to you by EmuWorld!\n"
 printf "\e[91m$(tput bold)NOW BACK FROM THE DEAD!\e[0m "
 printf "Check option 4 to get a new invite.\n"
+printf "REMINDER:In case the build fails, grab the latest AppImage from https://edisionnano.github.io\n"
 #Download and save links currently listed on PinEApple site
 curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
 #Print current version and take user input
