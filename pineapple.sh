@@ -133,8 +133,10 @@ if [ "$magicnumber" ]; then
 fi
 wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
 wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/warning-to-warning.patch
+wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/disable-shadow-error.patch
 patch -p1 < inject-git-info.patch
 patch -p1 < warning-to-warning.patch
+patch -p1 < disable-shadow-error.patch
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
 cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=ON && ninja -j $(nproc)
