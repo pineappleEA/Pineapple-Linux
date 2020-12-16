@@ -131,9 +131,9 @@ if [ "$magicnumber" ]; then
 	    :
 	fi
 fi
-wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch
-wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/warning-to-warning.patch
-wget -q https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/disable-shadow-error.patch
+curl https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch > inject-git-info.patch
+curl https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/warning-to-warning.patch > warning-to-warning.patch
+curl https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/disable-shadow-error.patch > disable-shadow-error.patch
 patch -p1 < inject-git-info.patch
 patch -p1 < warning-to-warning.patch
 patch -p1 < disable-shadow-error.patch
