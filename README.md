@@ -11,7 +11,7 @@ The installer requires the same dependencies as yuzu for building plus 7zip for 
 ```sudo pacman -S --needed p7zip git base-devel ninja cmake sdl2 qt5-base python2 python-pip boost catch2 fmt libzip lz4 mbedtls nlohmann-json openssl opus zlib zstd glslang && yay -S conan```
 or get conan from aur manually.
 ### Debian (incl. Ubuntu,Mint,pop os etc.)
-```sudo apt-get install gcc-10 g++-10 glslang-tools p7zip-full git build-essential ninja-build cmake libsdl2-dev qtbase5-dev libqt5opengl5-dev qtbase5-private-dev python python3-pip libboost-dev libboost-context-dev libzip-dev liblz4-dev libmbedtls-dev libssl-dev libopus-dev zlib1g-dev libzstd-dev libavcodec-dev libavutil-dev libswscale-dev```
+```sudo apt-get install gcc-10 g++-10 glslang-tools p7zip-full git build-essential ninja-build cmake libsdl2-dev qtbase5-dev libqt5opengl5-dev qtbase5-private-dev python python3-pip libboost-dev libboost-context-dev libzip-dev liblz4-dev libmbedtls-dev libssl-dev libopus-dev zlib1g-dev libzstd-dev libavcodec-dev libavutil-dev libswscale-dev xorg-dev libx11-xcb-dev```
 Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
 Make sure GCC and G++ 10 is used, one way is to add on your .bashrc/.zshrc ```export CC=/usr/bin/gcc-10``` and ```export CXX=/usr/bin/g++-10```
 ### Fedora
