@@ -2,14 +2,14 @@
 A yuzu compiler and updater for Linux
 
 ## What does it do
-This script downloads the latest yuzu Early Access (or an older version if you wish) from [PinEApple](https://pineappleea.github.io/), extracts it, compiles it and optionally installs it creating a launcher entry and a terminal command. The script also provides an unistall option in case something goes wrong
+This script downloads the latest yuzu Early Access (or an older version if you wish) from [PinEApple](https://pineappleea.github.io/), extracts it, compiles it and optionally installs it creating a launcher entry and a terminal command. The script also provides an uninstall option in case something goes wrong
 
 ## Dependencies
-The installer requires the same dependencies as yuzu for building plus 7zip for extraction. The way yuzu prompts users to install conan is not recommended.
+The installer requires the same dependencies as yuzu for building plus 7zip for extraction.
 
 ### Arch
 ```sudo pacman -S --needed p7zip git base-devel ninja cmake sdl2 qt5-base python2 python-pip boost catch2 fmt libzip lz4 mbedtls nlohmann-json openssl opus zlib zstd glslang && yay -S conan```
-or get conan from aur manually.
+or get conan from aur manually. Installing it via pip is not recommended on Arch.
 ### Debian (incl. Ubuntu,Mint,pop os etc.)
 ```sudo apt-get install gcc-10 g++-10 glslang-tools p7zip-full git build-essential ninja-build cmake libsdl2-dev qtbase5-dev libqt5opengl5-dev qtbase5-private-dev python python3-pip libboost-dev libboost-context-dev libzip-dev liblz4-dev libmbedtls-dev libssl-dev libopus-dev zlib1g-dev libzstd-dev libavcodec-dev libavutil-dev libswscale-dev xorg-dev libx11-xcb-dev```
 Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
@@ -31,7 +31,7 @@ will run the script when you type in the command ```pineapple```.
 
 Alternatively, download the script using ```wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh``` and run it using ```sh pineapple.sh```.
 
-But keep in mind that you may have to update the downloaded script from time to time.
+This is not recommended, since we need to update the script from time to time to fix yuzu's compilation process, but can be useful to install older versions.
 
 ## Magic Number
 **NVIDIA users only!**
