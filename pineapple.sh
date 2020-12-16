@@ -168,7 +168,7 @@ XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
     :
 else
-	wget -q https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml
+	curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml > yuzu.xml
 	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
 	sudo update-mime-database /usr/share/mime
 fi
