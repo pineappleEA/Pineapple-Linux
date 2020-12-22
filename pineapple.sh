@@ -88,7 +88,7 @@ if ! [ -x "$(command -v aria2c)" ]; then
     printf "You are missing aria2, downloading using the slower fallback wget method."
     wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 else
-    aria2c -c -x 6 -s 6 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+    aria2c -c -x 6 -s 12 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 fi
 if [ $? -ne 0 ]; then
     printf "Download failed!\n"
