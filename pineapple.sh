@@ -84,7 +84,8 @@ fi
 }
 prompt
 #Download and unzip given version
-if [ "$(curl https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-$VER)" = "404: Not Found%" ]; then
+available=$(curl -I -s https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-$title | head -n 1 | grep -o "404")
+if ! [ -z $available ]; then
 	if ! [ -x "$(command -v aria2c)" ]; then
 	    printf "You are missing aria2, downloading using the slower fallback wget method."
 	    wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
@@ -158,7 +159,7 @@ if [ $? -ne 0 ]; then
     printf "If that doesn't help, feel free to contact us on discord in the #linux channel\n"
     exit
 fi
-printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
+printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it systemwide [y/n]?:"
 read install <&1
 #Save compiler output to ~/earlyaccess/yuzu and cleanup /tmp if user doesn't want to install
 if [ "$install" = "n" ]; then
