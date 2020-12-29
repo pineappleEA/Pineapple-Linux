@@ -110,14 +110,9 @@ if ! [ -z $available ]; then
 	rm yuzu-windows-msvc-source-*.tar.xz 
 	cd $(ls -d yuzu-windows-msvc-source-*)
 else
-	if ! [ -x "$(command -v aria2c)" ]; then
-		    printf "You are missing aria2, downloading using the slower fallback wget method."
-		    wget -N -c https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-${title} -O pineapple-src-EA-${title}.zip
-		else
-		    aria2c -c -x 6 -s 12 https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-${title}
-		fi
-		7z x pineapple-src-EA-${title}.zip
-		cd pineapple-src-EA-${title}
+	wget -N -c https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-${title} -O pineapple-src-EA-${title}.zip
+	7z x pineapple-src-EA-${title}.zip
+	cd pineapple-src-EA-${title}
 fi
 
 find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
