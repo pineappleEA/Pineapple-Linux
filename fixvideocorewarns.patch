@@ -1,0 +1,21 @@
+--- a/src/video_core/CMakeLists.txt
++++ b/src/video_core/CMakeLists.txt
+@@ -299,7 +299,6 @@
+         /we4457 # Declaration of 'identifier' hides function parameter
+         /we4458 # Declaration of 'identifier' hides class member
+         /we4459 # Declaration of 'identifier' hides global declaration
+-        /we4715 # 'function' : not all control paths return a value
+     )
+ else()
+     target_compile_options(video_core PRIVATE
+@@ -307,10 +305,8 @@
+         -Werror=shadow
+         -Werror=switch
+         -Werror=type-limits
+-        -Werror=unused-variable
+ 
+         $<$<CXX_COMPILER_ID:GNU>:-Werror=class-memaccess>
+         $<$<CXX_COMPILER_ID:GNU>:-Werror=unused-but-set-parameter>
+-        $<$<CXX_COMPILER_ID:GNU>:-Werror=unused-but-set-variable>
+     )
+ endif()
