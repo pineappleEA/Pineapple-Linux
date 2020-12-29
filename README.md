@@ -38,6 +38,12 @@ This is not recommended, since we need to update the script from time to time to
 This fixes the issue where vulkan outright crashes when starting a game which is cause by a bug on the nvidia drivers that require allocable_size to be more than 4 MiB.
 This has been fixed in EA 995. If you want to test vulkan on an earlier build, you can manually invoke it with the ```-n``` option.
 
+## Notes
+- Debuntu and based distro (Mint, PopOs, etc.) users need to make sure they have g++ ≥ 10 using ```g++ -v``` (the version is at the bottom). If you have 9 or less, switch to 10 using
+```sudo apt-get install gcc-10 g++-10```
+```sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10```
+```sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10```
+
 ## Tips
 - If you have aria2 installed, the script will automatically use it to download yuzu with multiple connections, giving up to a 6x download speed improvement. 
 If you do not have aria2 installed, the script will fall back to the slower wget
