@@ -84,30 +84,37 @@ fi
 }
 prompt
 #Download and unzip given version
-if ! [ -x "$(command -v aria2c)" ]; then
-    printf "You are missing aria2, downloading using the slower fallback wget method."
-    wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+available=$(curl -I -s https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-$title | head -n 1 | grep -o "404")
+if ! [ -z $available ]; then
+	if ! [ -x "$(command -v aria2c)" ]; then
+	    printf "You are missing aria2, downloading using the slower fallback wget method."
+	    wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+	else
+	    aria2c -c -x 6 -s 12 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+	fi
+	if [ $? -ne 0 ]; then
+	    printf "Download failed!\n"
+	    printf "If you are in Italy or Iran, please use a VPN in another country,\n"
+	    printf "otherwise, please try again in a few minutes.\n"
+	    exit
+	fi
+	ZIPNAME=YuzuEA-$title.7z
+	7z x $ZIPNAME yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
+	if [ -d "yuzu-windows-msvc-early-access" ]; then
+		cd yuzu-windows-msvc-early-access
+	else
+		printf "Extraction failed!\nMake sure you install all the necessary dependencies.\n"
+		exit
+	fi
+	tar -xf yuzu-windows-msvc-source-*
+	rm yuzu-windows-msvc-source-*.tar.xz 
+	cd $(ls -d yuzu-windows-msvc-source-*)
 else
-    aria2c -c -x 6 -s 12 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+	wget -N -c https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-${title} -O pineapple-src-EA-${title}.zip
+	7z x pineapple-src-EA-${title}.zip
+	cd pineapple-src-EA-${title}
 fi
-if [ $? -ne 0 ]; then
-    printf "Download failed!\n"
-    printf "If you are in Italy or Iran, please use a VPN in another country,\n"
-    printf "otherwise, please try again in a few minutes.\n"
-    exit
-fi
-ZIPNAME=YuzuEA-$title.7z
-7z x $ZIPNAME yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
-if [ -d "yuzu-windows-msvc-early-access" ]; then
-	cd yuzu-windows-msvc-early-access
-else
-	printf "Extraction failed!\nMake sure you install all the necessary dependencies.\n"
-	exit
-fi
-tar -xf yuzu-windows-msvc-source-*
-rm yuzu-windows-msvc-source-*.tar.xz 
-#Compilation
-cd $(ls -d yuzu-windows-msvc-source-*)
+
 find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
 find . -exec touch {} +
 if [ "$magicnumber" ]; then
@@ -149,7 +156,7 @@ if [ $? -ne 0 ]; then
     printf "If that doesn't help, feel free to contact us on discord in the #linux channel\n"
     exit
 fi
-printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it[y/n]?:"
+printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it systemwide [y/n]?:"
 read install <&1
 #Save compiler output to ~/earlyaccess/yuzu and cleanup /tmp if user doesn't want to install
 if [ "$install" = "n" ]; then
