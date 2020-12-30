@@ -111,6 +111,12 @@ if ! [ -z $available ]; then
 	cd $(ls -d yuzu-windows-msvc-source-*)
 else
 	wget -N -c https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-${title} -O pineapple-src-EA-${title}.zip
+	if [ $? -ne 0 ]; then
+		    printf "Download failed!\n"
+		    printf "Make sure you have wget installed, and maybe try another version,\n"
+		    printf "otherwise, please try again in a few minutes.\n"
+		    exit
+		fi
 	7z x pineapple-src-EA-${title}.zip
 	cd pineapple-src-EA-${title}
 fi
