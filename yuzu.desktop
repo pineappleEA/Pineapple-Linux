@@ -5,8 +5,9 @@ Name=yuzu Early Access
 GenericName=Switch Emulator
 Comment=Nintendo Switch video game console emulator
 Icon=yuzu
-TryExec=yuzu
-Exec=yuzu %f
+TryExec=env XDG_CURRENT_DESKTOP=GNOME yuzu
+Exec=env XDG_CURRENT_DESKTOP=GNOME yuzu %f
+StartupWMClass=yuzu
 Categories=Game;Emulator;Qt;
 MimeType=application/x-nx-nro;application/x-nx-nso;application/x-nx-nsp;application/x-nx-xci;
 Keywords=Switch;Nintendo;
