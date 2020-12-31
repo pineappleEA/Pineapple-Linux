@@ -61,8 +61,8 @@ elif [ "$option" = "2" ]; then
         exit
 	fi
 elif [ "$option" = "3" ]; then
-	printf "\nUninstalling...\n"
 	sudo rm /usr/local/bin/yuzu
+	printf "\nUninstalling...\n"
 	sudo rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
 	sudo rm /usr/share/pixmaps/yuzu.svg
 	sudo rm /usr/share/applications/yuzu.desktop
