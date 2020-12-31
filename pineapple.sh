@@ -67,6 +67,7 @@ elif [ "$option" = "3" ]; then
 	sudo rm /usr/share/pixmaps/yuzu.svg
 	sudo rm /usr/share/applications/yuzu.desktop
 	sudo rm /usr/share/mime/packages/yuzu.xml
+	sudo rm -f /usr/local/share/applications/yuzu.desktop
 	sudo update-desktop-database
 	sudo update-mime-database /usr/share/mime
 	printf "Uninstalled successfully\n"
