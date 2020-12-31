@@ -6,7 +6,7 @@ GenericName=Switch Emulator
 Comment=Nintendo Switch video game console emulator
 Icon=yuzu
 TryExec=yuzu
-Exec=QT_QPA_PLATFORMTHEME=gtk3 yuzu %f
+Exec=env QT_QPA_PLATFORMTHEME=gtk3 yuzu %f
 StartupWMClass=yuzu
 Categories=Game;Emulator;Qt;
 MimeType=application/x-nx-nro;application/x-nx-nso;application/x-nx-nsp;application/x-nx-xci;
