@@ -13,7 +13,7 @@ or get conan from aur manually. Installing it via pip is not recommended on Arch
 ### Debian (incl. Ubuntu,Mint,pop os etc.)
 ```sudo apt-get install gcc-10 g++-10 glslang-tools p7zip-full git build-essential ninja-build make cmake libsdl2-dev qtbase5-dev libqt5opengl5-dev qtbase5-private-dev python python3-pip libboost-dev libboost-context-dev libzip-dev liblz4-dev libmbedtls-dev libssl-dev libopus-dev zlib1g-dev libzstd-dev libavcodec-dev libavutil-dev libswscale-dev xorg-dev libx11-xcb-dev libxcb-dri3-dev```
 Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
-Make sure GCC and G++ 10 is used, one way is to add on your .bashrc/.zshrc ```export CC=/usr/bin/gcc-10``` and ```export CXX=/usr/bin/g++-10```
+Make sure GCC and G++ 10 is used, look at the Tips section bellow for more info.
 ### Fedora
 ```sudo dnf install boost-devel cmake make fmt-devel gcc gcc-c++ git libdmx-devel libfontenc-devel libfontenc-devel libFS-devel libICE-devel libSM-devel libXau-devel libXaw-devel libXaw-devel libxcb-devel libXcomposite-devel libXcursor-devel libXdamage-devel libXdmcp-devel libXdmcp-devel libXext-devel libXfixes-devel libXft-devel libXi-devel libXinerama-devel libxkbfile-devel libXmu-devel libXpm-devel libXrandr-devel libXrender-devel libXres-devel libXres-devel libXScrnSaver-devel libXScrnSaver-devel libXt-devel libXtst-devel libXtst-devel libXv-devel libXvMC-devel libXxf86dga-devel libXxf86vm-devel libzip-devel libzstd-devel lz4-devel mbedtls-devel ninja-build openssl-devel opus-devel p7zip p7zip-plugins python2 python-pip qt5-qtbase-devel SDL2-devel xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel xcb-util-wm-devel xkeyboard-config-devel xorg-x11-server-devel xorg-x11-xkb-utils-devel xorg-x11-xtrans-devel zlib-devel && sudo pip install conan```
 ### Gentoo
@@ -45,11 +45,8 @@ This has been fixed in EA 995. If you want to test vulkan on an earlier build, y
 ```sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10```
 
 ## Tips
-- If you have aria2 installed, the script will automatically use it to download yuzu with multiple connections, giving up to a 6x download speed improvement. 
-If you do not have aria2 installed, the script will fall back to the slower wget
-
 - Use ccache to make compilation way faster. Just install the ccache package and add append the path. For arch you can add ```export PATH="/usr/lib/ccache/bin/:$PATH"``` (for Fedora and SUSE this would be ```export PATH="/usr/lib64/ccache/:$PATH"```) at the bottom of the file .zshrc/.bash_rc found on your home folder (Use ctrl+H to view hidden files), for debian based distros like ubuntu and mint you can follow the first answer [here](https://askubuntu.com/questions/470545/how-do-i-set-up-ccache).
 
-- If you have an Nvidia gpu you can boost performance by adding ```env LD_PRELOAD="libpthread.so.0 libGL.so.1" __GL_THREADED_OPTIMIZATIONS=1 ``` after ```Exec=``` on the yuzu.desktop file located in /usr/share/applications (you'll need sudo to edit it).
+- If you have an Nvidia gpu you can boost performance by adding ```env LD_PRELOAD="libpthread.so.0 libGL.so.1" __GL_THREADED_OPTIMIZATIONS=1 ``` after ```Exec=``` on the yuzu.desktop file located in /usr/share/applications (you'll need sudo to edit it) or copy it to ~/.local/share/applications.
 
 - For AMD/Intel GPUs that would be ```glsl_zero_init=true MESA_EXTENSION_OVERRIDE="-GL_KHR_texture_compression_astc_ldr -GL_KHR_texture_compression_astc_sliced_3d"```
