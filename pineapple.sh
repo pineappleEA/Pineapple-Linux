@@ -64,7 +64,8 @@ elif [ "$option" = "3" ]; then
 	sudo rm /usr/local/bin/yuzu
 	printf "\nUninstalling...\n"
 	sudo rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
-	sudo rm /usr/share/pixmaps/yuzu.svg
+	sudo rm -f /usr/share/pixmaps/yuzu.svg
+	sudo rm -f /usr/share/pixmaps/yuzu.png
 	sudo rm /usr/share/applications/yuzu.desktop
 	sudo rm /usr/share/mime/packages/yuzu.xml
 	sudo rm -f /usr/local/share/applications/yuzu.desktop
@@ -151,6 +152,8 @@ find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror$/-W/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*)$/ )/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*$/ /g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/-Werror/-W/g' {} +
+find . -name "main.ui" -exec sed -i 's#../dist/yuzu.ico#/usr/share/pixmaps/yuzu.png#g' {} +
+
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
 cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=OFF && ninja -j $(nproc)
@@ -186,14 +189,14 @@ else
 	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
 	sudo update-mime-database /usr/share/mime
 fi
-cd /usr/share/pixmaps
+cd /usr/share/icons/hicolor/scalable/apps
 #Launcher shortcut
 FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
     :
 else
 	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.svg > yuzu.svg"
-	sudo cp /usr/share/pixmaps/yuzu.svg /usr/share/icons/hicolor/scalable/apps/yuzu.svg
+	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.png > /usr/share/pixmaps/yuzu.png"
 	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.desktop > /usr/share/applications/yuzu.desktop"
 	sudo update-desktop-database
 fi
