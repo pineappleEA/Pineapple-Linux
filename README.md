@@ -5,19 +5,19 @@ A yuzu compiler and updater for Linux
 This script downloads the latest yuzu Early Access (or an older version if you wish) from [PinEApple](https://pineappleea.github.io/), extracts it, compiles it and optionally installs it creating a launcher entry and a terminal command. The script also provides an uninstall option in case something goes wrong
 
 ## Dependencies
-The installer requires the same dependencies as yuzu for building plus 7zip for extraction.
+The installer requires the same dependencies as yuzu for building plus tar for extraction and cURL for downloading.
 
 ### Arch
-```sudo pacman -S --needed base-devel cmake git glslang ninja p7zip python2 python-pip qt5-base qt5-tools && yay -S conan```
+```sudo pacman -S --needed base-devel cmake git glslang ninja python2 python-pip qt5-base qt5-tools && yay -S conan```
 or get conan from aur manually. Installing it via pip is not recommended on Arch.
 ### Debian (incl. Ubuntu,Mint,pop os etc.)
-```sudo apt install build-essential cmake g++-10 gcc-10 git glslang-tools libavcodec-dev libavutil-dev libboost-context-dev libboost-dev liblz4-dev libmbedtls-dev libopus-dev libqt5opengl5-dev libsdl2-dev libssl-dev libswscale-dev libx11-xcb-dev libxcb-dri3-dev libzip-dev libzstd-dev make ninja-build p7zip-full python python3-pip qtbase5-dev qtbase5-private-dev qttools5-dev xorg-dev zlib1g-dev```
+```sudo apt install build-essential cmake g++-10 gcc-10 git glslang-tools libavcodec-dev libavutil-dev libboost-context-dev libboost-dev liblz4-dev libmbedtls-dev libopus-dev libqt5opengl5-dev libsdl2-dev libssl-dev libswscale-dev libx11-xcb-dev libxcb-dri3-dev libzip-dev libzstd-dev make ninja-build python python3-pip qtbase5-dev qtbase5-private-dev qttools5-dev xorg-dev zlib1g-dev```
 Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
 Make sure GCC and G++ 10 is used, look at the Notes section bellow for more info.
 ### Fedora
 ```sudo dnf install alsa-lib-devel boost-devel cmake ffmpeg-devel fmt-devel gcc jack-audio-connection-kit-devel libzip-devel libzip-tools libzstd-devel lz4-devel make mbedtls-devel ninja-build openssl-devel opus-devel pulseaudio-libs-devel python2 python-pip qt5-linguist qt5-qtbase-devel qt5-qtbase-private-devel SDL2-devel zlib-devel```
 ### Gentoo
-```emerge dev-vcs/git app-arch/p7zip =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/linguist-tools dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
+```emerge dev-vcs/git =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/linguist-tools dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
       
 ## Usage
 Run the script using 
