@@ -29,7 +29,7 @@ If you wanna call the updater using a command, you can append an alias to your .
 ```alias pineapple="curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh | sh -s --"``` 
 will run the script when you type in the command ```pineapple```.
 
-Alternatively, download the script using ```wget https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh``` and run it using ```sh pineapple.sh```.
+Alternatively, download the script using ```curl -sO https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/pineapple.sh``` and run it using ```sh pineapple.sh```.
 
 This is not recommended, since we need to update the script from time to time to fix yuzu's compilation process, but can be useful to install older versions.
 
@@ -39,6 +39,8 @@ This fixes the issue where vulkan outright crashes when starting a game which is
 This has been fixed in EA 995. If you want to test vulkan on an earlier build, you can manually invoke it with the ```-n``` option.
 
 ## Notes
+- The script needs cURL to work, it is the only option for various functions. For downloading the latest build wget will be used if found, cURL is the fallback. For downloading legacy builds that are not on github (older than 1255) aria2 is recommended as a partial workaround, if that isn't found wget then cURL will be used instead. Using so old builds is not advised.
+
 - Debuntu and based distro (Mint, PopOs, etc.) users need to make sure they have g++ ≥ 10 using ```g++ -v``` (the version is at the bottom). If you have 9 or less, switch to 10 using
 ```sudo apt install gcc-10 g++-10```
 ```sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10```
