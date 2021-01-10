@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
-initial_wd=`pwd`
 find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' 2>/dev/null | sort -n -r | xargs rm -rf --
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
 while getopts ":n" options; do
@@ -31,8 +30,13 @@ printf "Brought to you by EmuWorld!\n"
 printf "\e[91m$(tput bold)NOW BACK FROM THE DEAD!\e[0m "
 printf "Check option 4 to get a new invite.\n"
 printf "REMINDER:In case the build fails, grab the latest AppImage from https://edisionnano.github.io\n"
+#Set fallback links
+function pinesite () {
+curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html || curl -s https://pineappleea.github.io
+}
+
 #Download and save links currently listed on PinEApple site
-curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
+pinesite | sed -e '0,/^			<!--link-goes-here-->$/d' -e '/div/q;p'| head -n -2 > version.txt
 #Print current version and take user input
 prompt()
 {
@@ -44,7 +48,7 @@ printf " [1] Download it \n [2] Download an older version \n [3] Uninstall \n [4
 read option <&1
 #execute the given command
 if [ "$option" = "1" ]; then
-    	title=$latest
+	title=$latest
 	curl -s $(head -n 1 version.txt | grep -o 'https.*7z') > version.txt
 elif [ "$option" = "2" ]; then
 	printf "Available versions:\n"
@@ -61,8 +65,8 @@ elif [ "$option" = "2" ]; then
         exit
 	fi
 elif [ "$option" = "3" ]; then
+	printf "Uninstalling..."
 	sudo rm /usr/local/bin/yuzu
-	printf "\nUninstalling...\n"
 	sudo rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
 	sudo rm -f /usr/share/pixmaps/yuzu.svg
 	sudo rm -f /usr/share/pixmaps/yuzu.png
@@ -71,7 +75,7 @@ elif [ "$option" = "3" ]; then
 	sudo rm -f /usr/local/share/applications/yuzu.desktop
 	sudo update-desktop-database
 	sudo update-mime-database /usr/share/mime
-	printf "Uninstalled successfully\n"
+	printf "\nUninstalled successfully\n"
 	exit
 elif [ "$option" = "4" ]; then
 	printf "Discord Invite:\n"
@@ -88,11 +92,14 @@ prompt
 #Download and unzip given version
 available=$(curl -I -s https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-$title | head -n 1 | grep -o "404")
 if ! [ -z $available ]; then
-	if ! [ -x "$(command -v aria2c)" ]; then
+	if [ -x "$(command -v aria2c)" ]; then
+	    aria2c -c -x 6 -s 12 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+	elif [ -x "$(command -v wget)" ]; then
 	    printf "You are missing aria2, downloading using the slower fallback wget method."
 	    wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 	else
-	    aria2c -c -x 6 -s 12 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
+		printf "You are missing both aria2 and wget, downloading using the even slower fallback curl method."
+		curl -LOC - $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
 	fi
 	if [ $? -ne 0 ]; then
 	    printf "Download failed!\n"
@@ -112,18 +119,29 @@ if ! [ -z $available ]; then
 	rm yuzu-windows-msvc-source-*.tar.xz 
 	cd $(ls -d yuzu-windows-msvc-source-*)
 else
-	wget -N -c https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-${title} -O pineapple-src-EA-${title}.zip
+	#Use cURL if wget isn't installed
+	wget https://codeload.github.com/pineappleEA/pineapple-src/legacy.tar.gz/EA-${title} -O pineapple-src-EA-${title}.tar.gz || curl -o pineapple-src-EA-${title}.tar.gz https://codeload.github.com/pineappleEA/pineapple-src/legacy.tar.gz/EA-${title}
 	if [ $? -ne 0 ]; then
 		    printf "Download failed!\n"
-		    printf "Make sure you have wget installed, and maybe try another version,\n"
+		    printf "Make sure you have wget or curl installed, and maybe try another version,\n"
 		    printf "otherwise, please try again in a few minutes.\n"
 		    exit
 		fi
-	7z x pineapple-src-EA-${title}.zip
-	cd pineapple-src-EA-${title}
+	tar -xf pineapple-src-EA-${title}.tar.gz
+	arch_dir=$(tar --exclude='*/*' -tf pineapple-src-EA-${title}.tar.gz)
+	if [ -d "$arch_dir" ]; then
+		cd $arch_dir
+	else
+		printf "Extraction failed!\nAborting...\n"
+		exit
+	fi
 fi
 
+#Get source modification date
+build_date=$(date +%F -r .)
+#Convert Dos line endings to UNIX ones
 find -path ./dist -prune -o -type f -exec sed -i 's/\r$//' {} ';'
+#Change all file modification dates to current, workaround for a Ninja bug
 find . -exec touch {} +
 if [ "$magicnumber" ]; then
 	printf "Magic Number\n"
@@ -146,17 +164,31 @@ if [ "$magicnumber" ]; then
 	    :
 	fi
 fi
-curl https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch > inject-git-info.patch
+#Fix _NET_WM_ICON
+curl -sO https://patch-diff.githubusercontent.com/raw/yuzu-emu/yuzu/pull/5274.diff || curl -sO https://gitlab.com/samantas5855/pineapple/-/raw/master/5274.diff
+#Inject version info
+curl -sO https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch || curl -sO https://gitlab.com/samantas5855/pineapple/-/raw/master/inject-git-info.patch 
+#Apply the patches
 patch -p1 < inject-git-info.patch
+patch -p1 < 5274.diff
+#Replace warning to  errors with just warnings, needed when compiling with ninja
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror$/-W/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*)$/ )/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*$/ /g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/-Werror/-W/g' {} +
-find . -name "main.ui" -exec sed -i 's#../dist/yuzu.ico#/usr/share/pixmaps/yuzu.png#g' {} +
-
+#Set the launch entry name to Early Access
+sed -i -e '/Name=yuzu/ s/$/ Early Access/' dist/yuzu.desktop
+#Dirty fix for some icons not appearing on Qt desktops and window managers
+sed -i -e 's#Exec=yuzu %f#Exec=env QT_QPA_PLATFORMTHEME=gtk3 yuzu %f#g' dist/yuzu.desktop
+#Potentially fix broken window grouping
+sed -i -e '/yuzu %f/a StartupWMClass=yuzu' dist/yuzu.desktop
+#Allow launching NSP and XCI files directly
+sed -i -e 's_^MimeType=.*_&application/x-nx-nsp;application/x-nx-xci;_' dist/yuzu.desktop
+#Add XCI and NSP entries to the mimetype XML to allow for direct launching
+curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml > ./dist/yuzu.xml || curl -s https://gitlab.com/samantas5855/pineapple/-/raw/master/yuzu.xml > ./dist/yuzu.xml
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
-cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DENABLE_QT_TRANSLATION=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=OFF && ninja -j $(nproc)
+cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DENABLE_QT_TRANSLATION=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DBUILD_DATE="$build_date" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=OFF && ninja -j $(nproc)
 if [ $? -ne 0 ]; then
 	printf "\n------------------------------------------------------------------------------\n"
     printf "Compilation failed!\n"
@@ -167,39 +199,39 @@ fi
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it systemwide [y/n]?:"
 read install <&1
 #Save compiler output to ~/earlyaccess/yuzu and cleanup /tmp if user doesn't want to install
-if [ "$install" = "n" ]; then
-	mkdir -p ~/earlyaccess
+if [ "$install" = "y" ] || [ "$install" = "Y" ]; then
+	:
+else
+	printf "Aborting..."
+    mkdir -p ~/earlyaccess
 	mv bin/yuzu ~/earlyaccess/yuzu
 	cd ~/earlyaccess/
 	find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
 	printf '\e[1;32m%-6s\e[m' "The binary sits at ~/earlyaccess/yuzu."
 	printf "\n"
 	exit
-else
-    :
 fi
 #Install yuzu and cleanup /tmp
+printf "Installing..."
 sudo mv bin/yuzu /usr/local/bin/yuzu
 #Mimetype fix
 XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
     :
 else
-	curl https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml > yuzu.xml
-	sudo mv yuzu.xml /usr/share/mime/packages/yuzu.xml
+	sudo sh -c "cp ../dist/yuzu.xml /usr/share/mime/packages"
 	sudo update-mime-database /usr/share/mime
 fi
-cd /usr/share/icons/hicolor/scalable/apps
 #Launcher shortcut
 FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
     :
 else
-	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.svg > yuzu.svg"
-	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.png > /usr/share/pixmaps/yuzu.png"
-	sudo sh -c "curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.desktop > /usr/share/applications/yuzu.desktop"
+	sudo sh -c "cp ../dist/yuzu.svg /usr/share/icons/hicolor/scalable/apps"
+	sudo sh -c "cp ../dist/yuzu.desktop /usr/share/applications"
 	sudo update-desktop-database
 fi
 find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
+printf "\n"
 printf '\e[1;32m%-6s\e[m' "Installation completed. Use the command yuzu or run it from your launcher."
 printf "\n"
