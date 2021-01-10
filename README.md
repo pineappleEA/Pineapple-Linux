@@ -8,16 +8,16 @@ This script downloads the latest yuzu Early Access (or an older version if you w
 The installer requires the same dependencies as yuzu for building plus 7zip for extraction.
 
 ### Arch
-```sudo pacman -S --needed p7zip git base-devel ninja cmake qt5-base qt5-tools python2 python-pip glslang && yay -S conan```
+```sudo pacman -S --needed base-devel cmake git glslang ninja p7zip python2 python-pip qt5-base qt5-tools && yay -S conan```
 or get conan from aur manually. Installing it via pip is not recommended on Arch.
 ### Debian (incl. Ubuntu,Mint,pop os etc.)
-```sudo apt install gcc-10 g++-10 glslang-tools p7zip-full git build-essential ninja-build make cmake libsdl2-dev qtbase5-dev libqt5opengl5-dev qtbase5-private-dev python python3-pip libboost-dev libboost-context-dev libzip-dev liblz4-dev libmbedtls-dev libssl-dev libopus-dev zlib1g-dev libzstd-dev libavcodec-dev libavutil-dev libswscale-dev xorg-dev libx11-xcb-dev libxcb-dri3-dev qttools5-dev```
+```sudo apt install build-essential cmake g++-10 gcc-10 git glslang-tools libavcodec-dev libavutil-dev libboost-context-dev libboost-dev liblz4-dev libmbedtls-dev libopus-dev libqt5opengl5-dev libsdl2-dev libssl-dev libswscale-dev libx11-xcb-dev libxcb-dri3-dev libzip-dev libzstd-dev make ninja-build p7zip-full python python3-pip qtbase5-dev qtbase5-private-dev qttools5-dev xorg-dev zlib1g-dev```
 Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
 Make sure GCC and G++ 10 is used, look at the Notes section bellow for more info.
 ### Fedora
-```sudo dnf install boost-devel cmake make fmt-devel gcc gcc-c++ git libdmx-devel libfontenc-devel libfontenc-devel libFS-devel libICE-devel libSM-devel libXau-devel libXaw-devel libXaw-devel libxcb-devel libXcomposite-devel libXcursor-devel libXdamage-devel libXdmcp-devel libXdmcp-devel libXext-devel libXfixes-devel libXft-devel libXi-devel libXinerama-devel libxkbfile-devel libXmu-devel libXpm-devel libXrandr-devel libXrender-devel libXres-devel libXres-devel libXScrnSaver-devel libXScrnSaver-devel libXt-devel libXtst-devel libXtst-devel libXv-devel libXvMC-devel libXxf86dga-devel libXxf86vm-devel libzip-devel libzstd-devel lz4-devel mbedtls-devel ninja-build openssl-devel opus-devel p7zip p7zip-plugins python2 python-pip qt5-qtbase-devel SDL2-devel xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel xcb-util-wm-devel xkeyboard-config-devel xorg-x11-server-devel xorg-x11-xkb-utils-devel xorg-x11-xtrans-devel zlib-devel && sudo pip install conan```
+```sudo dnf install alsa-lib-devel boost-devel cmake ffmpeg-devel fmt-devel gcc jack-audio-connection-kit-devel libzip-devel libzip-tools libzstd-devel lz4-devel make mbedtls-devel ninja-build openssl-devel opus-devel pulseaudio-libs-devel python2 python-pip qt5-linguist qt5-qtbase-devel qt5-qtbase-private-devel SDL2-devel zlib-devel```
 ### Gentoo
-```emerge dev-vcs/git app-arch/p7zip =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
+```emerge dev-vcs/git app-arch/p7zip =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/linguist-tools dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
       
 ## Usage
 Run the script using 
