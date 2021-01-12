@@ -176,6 +176,10 @@ find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror$/-W/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*)$/ )/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*$/ /g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/-Werror/-W/g' {} +
+#Fix freezing when closing the window
+sed -i -e '0,/is_thread_exiting.store(true);/! s/is_thread_exiting.store(true);/&\n    cv.notify_all();/' src/video_core/shader/async_shaders.cpp
+#Fix Deriving Keys window not being a child of main
+sed -i -e 's/QProgressDialog prog;/QProgressDialog prog(this);/g' src/yuzu/main.cpp
 #Set the launch entry name to Early Access
 sed -i -e '/Name=yuzu/ s/$/ Early Access/' dist/yuzu.desktop
 #Dirty fix for some icons not appearing on Qt desktops and window managers
