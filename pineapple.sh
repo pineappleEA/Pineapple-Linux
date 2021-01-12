@@ -31,7 +31,7 @@ printf "\e[91m$(tput bold)NOW BACK FROM THE DEAD!\e[0m "
 printf "Check option 4 to get a new invite.\n"
 printf "REMINDER:In case the build fails, grab the latest AppImage from https://edisionnano.github.io\n"
 #Set fallback links
-function pinesite () {
+pinesite () {
 curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html || curl -s https://pineappleea.github.io
 }
 
