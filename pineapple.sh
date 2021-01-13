@@ -216,7 +216,7 @@ else
 	exit
 fi
 #Install yuzu and cleanup /tmp
-printf "Installing..."
+printf "\nInstalling..."
 sudo mv bin/yuzu /usr/local/bin/yuzu
 #Mimetype fix
 XML=/usr/share/mime/packages/yuzu.xml
