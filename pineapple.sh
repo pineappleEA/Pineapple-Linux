@@ -231,7 +231,7 @@ FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
     :
 else
-	sudo sh -c "cp ../dist/yuzu.svg /usr/share/icons/hicolor/scalable/apps"
+	sudo sh -c "echo /usr/share/icons/hicolor/scalable/apps /usr/share/pixmaps | xargs -n 1 cp ../dist/yuzu.svg"
 	sudo sh -c "cp ../dist/yuzu.desktop /usr/share/applications"
 	sudo update-desktop-database
 fi
