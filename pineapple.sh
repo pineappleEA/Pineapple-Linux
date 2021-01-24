@@ -79,7 +79,7 @@ elif [ "$option" = "3" ]; then
 	exit
 elif [ "$option" = "4" ]; then
 	printf "Discord Invite:\n"
-	echo "aHR0cHM6Ly9kaXNjb3JkLmdnL2NVNjRGR1o=" | base64 -d -
+	echo "aHR0cHM6Ly9kaXNjb3JkLmdnL1hjQXM3U1R4R20K" | base64 -d -
 	printf "\n"
 	sleep 2s
 	prompt
