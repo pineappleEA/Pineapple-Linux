@@ -180,6 +180,9 @@ find . -name "CMakeLists.txt" -exec sed -i 's/-Werror/-W/g' {} +
 sed -i -e '0,/is_thread_exiting.store(true);/! s/is_thread_exiting.store(true);/&\n    cv.notify_all();/' src/video_core/shader/async_shaders.cpp
 #Fix Deriving Keys window not being a child of main
 sed -i -e 's/QProgressDialog prog;/QProgressDialog prog(this);/g' src/yuzu/main.cpp
+#Fix old glslangvalidator in Ubuntu based distros
+sed -i -e 's/--quiet //g' src/video_core/host_shaders/CMakeLists.txt
+sed -i -e 's#${SPIRV_HEADER_FILE} ${SOURCE_FILE}#${SPIRV_HEADER_FILE} ${SOURCE_FILE} 2>/dev/null#g' src/video_core/host_shaders/CMakeLists.txt
 #Set the launch entry name to Early Access
 sed -i -e '/Name=yuzu/ s/$/ Early Access/' dist/yuzu.desktop
 #Dirty fix for some icons not appearing on Qt desktops and window managers
