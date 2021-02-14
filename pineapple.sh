@@ -178,8 +178,6 @@ sed -i -e 's/--quiet //g' src/video_core/host_shaders/CMakeLists.txt
 sed -i -e 's#${SPIRV_HEADER_FILE} ${SOURCE_FILE}#${SPIRV_HEADER_FILE} ${SOURCE_FILE} 2>/dev/null#g' src/video_core/host_shaders/CMakeLists.txt
 #Set the launch entry name to Early Access
 sed -i -e '/Name=yuzu/ s/$/ Early Access/' dist/yuzu.desktop
-#Dirty fix for some icons not appearing on Qt desktops and window managers
-sed -i -e 's#Exec=yuzu %f#Exec=env QT_QPA_PLATFORMTHEME=gtk3 yuzu %f#g' dist/yuzu.desktop
 #Potentially fix broken window grouping
 sed -i -e '/yuzu %f/a StartupWMClass=yuzu' dist/yuzu.desktop
 #Allow launching NSP and XCI files directly
