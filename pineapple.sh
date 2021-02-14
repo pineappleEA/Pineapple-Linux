@@ -164,22 +164,15 @@ if [ "$magicnumber" ]; then
 	    :
 	fi
 fi
-#Fix _NET_WM_ICON
-curl -sO https://patch-diff.githubusercontent.com/raw/yuzu-emu/yuzu/pull/5274.diff || curl -sO https://gitlab.com/samantas5855/pineapple/-/raw/master/5274.diff
 #Inject version info
 curl -sO https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/inject-git-info.patch || curl -sO https://gitlab.com/samantas5855/pineapple/-/raw/master/inject-git-info.patch 
 #Apply the patches
 patch -p1 < inject-git-info.patch
-patch -p1 < 5274.diff
 #Replace warning to  errors with just warnings, needed when compiling with ninja
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror$/-W/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*)$/ )/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*$/ /g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/-Werror/-W/g' {} +
-#Fix freezing when closing the window
-sed -i -e '0,/is_thread_exiting.store(true);/! s/is_thread_exiting.store(true);/&\n    cv.notify_all();/' src/video_core/shader/async_shaders.cpp
-#Fix Deriving Keys window not being a child of main
-sed -i -e 's/QProgressDialog prog;/QProgressDialog prog(this);/g' src/yuzu/main.cpp
 #Fix old glslangvalidator in Ubuntu based distros
 sed -i -e 's/--quiet //g' src/video_core/host_shaders/CMakeLists.txt
 sed -i -e 's#${SPIRV_HEADER_FILE} ${SOURCE_FILE}#${SPIRV_HEADER_FILE} ${SOURCE_FILE} 2>/dev/null#g' src/video_core/host_shaders/CMakeLists.txt
