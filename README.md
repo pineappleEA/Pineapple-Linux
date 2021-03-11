@@ -24,11 +24,15 @@ Make sure GCC and G++ 10 is used, look at the Notes section bellow for more info
 
 ```sudo ln -s ~/.local/bin/conan /usr/bin/conan```
 
-### for ffmpeg on Clear Linux
+### For ffmpeg on Clear Linux
 ```git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg```
+
 ```cd ffmpeg```
+
 ```./configure --prefix=/usr/local --enable-shared && make && sudo make install```
+
 ```sudo sh -c 'echo /usr/local/lib >>/etc/ld.so.conf'```
+
 ```sudo ldconfig```
       
 ## Usage
