@@ -18,6 +18,18 @@ Make sure GCC and G++ 10 is used, look at the Notes section bellow for more info
 ```sudo dnf install alsa-lib-devel boost-devel cmake ffmpeg-devel fmt-devel gcc jack-audio-connection-kit-devel libzip-devel libzip-tools libzstd-devel lz4-devel make mbedtls-devel ninja-build openssl-devel opus-devel pulseaudio-libs-devel python2 python-pip qt5-linguist qt5-qtbase-devel qt5-qtbase-private-devel SDL2-devel zlib-devel```
 ### Gentoo
 ```emerge dev-vcs/git =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/linguist-tools dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
+### Clear Linux
+```sudo swupd bundle-add  dev-utils qt5-dev curl git c-basic devpkg-libva nasm yasm os-clr-on-clr-dev``` 
+```pip install conan 
+
+sudo ln -s ~/.local/bin/conan /usr/bin/conan
+
+for ffmpeg
+git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg 
+cd ffmpeg
+./configure --prefix=/usr/local --enable-shared && make && sudo make install
+sudo sh -c 'echo /usr/local/lib >>/etc/ld.so.conf'
+sudo ldconfig```
       
 ## Usage
 Run the script using 
