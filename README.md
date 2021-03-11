@@ -19,7 +19,7 @@ Make sure GCC and G++ 10 is used, look at the Notes section bellow for more info
 ### Gentoo
 ```emerge dev-vcs/git =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/linguist-tools dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
 ### Clear Linux
-```sudo swupd bundle-add  dev-utils qt5-dev curl git c-basic devpkg-libva nasm yasm os-clr-on-clr-dev``` 
+```sudo swupd bundle-add dev-utils qt5-dev curl git c-basic devpkg-libva nasm yasm os-clr-on-clr-dev``` 
 
 ```pip install conan``` 
 
