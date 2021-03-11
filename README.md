@@ -20,16 +20,16 @@ Make sure GCC and G++ 10 is used, look at the Notes section bellow for more info
 ```emerge dev-vcs/git =sys-devel/gcc-7.1.0 dev-util/ninja dev-util/cmake media-libs/libsdl2 dev-qt/linguist-tools dev-qt/qtcore dev-qt/qtopengl && sudo pip install conan``` 
 ### Clear Linux
 ```sudo swupd bundle-add  dev-utils qt5-dev curl git c-basic devpkg-libva nasm yasm os-clr-on-clr-dev``` 
-```pip install conan 
+```pip install conan``` 
 
-sudo ln -s ~/.local/bin/conan /usr/bin/conan
+```sudo ln -s ~/.local/bin/conan /usr/bin/conan```
 
-for ffmpeg
-git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg 
-cd ffmpeg
-./configure --prefix=/usr/local --enable-shared && make && sudo make install
-sudo sh -c 'echo /usr/local/lib >>/etc/ld.so.conf'
-sudo ldconfig```
+### for ffmpeg on Clear Linux
+```git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg```
+```cd ffmpeg```
+```./configure --prefix=/usr/local --enable-shared && make && sudo make install```
+```sudo sh -c 'echo /usr/local/lib >>/etc/ld.so.conf'```
+```sudo ldconfig```
       
 ## Usage
 Run the script using 
