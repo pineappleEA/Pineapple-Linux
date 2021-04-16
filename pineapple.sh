@@ -29,7 +29,7 @@ printf "on pizza\n"
 printf "Brought to you by EmuWorld!\n"
 printf "\e[91m$(tput bold)NOW BACK FROM THE DEAD!\e[0m "
 printf "Check option 4 to get a new invite.\n"
-printf "REMINDER:In case the build fails, grab the latest AppImage from https://edisionnano.github.io\n"
+printf "REMINDER:In case the build fails, grab the latest AppImage from https://github.com/pineappleEA/pineapple-src/releases\n"
 #Set fallback links
 pinesite () {
 curl -s https://raw.githubusercontent.com/pineappleEA/pineappleEA.github.io/master/index.html || curl -s https://pineappleea.github.io
