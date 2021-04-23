@@ -11,7 +11,7 @@ The installer requires the same dependencies as yuzu for building plus tar for e
 ```sudo pacman -S --needed base-devel cmake git glslang ninja python2 python-pip qt5-base qt5-tools && yay -S conan```
 or get conan from aur manually. Installing it via pip is not recommended on Arch.
 ### Debian (incl. Ubuntu,Mint,pop os etc.)
-```sudo apt install build-essential cmake g++-10 gcc-10 git glslang-tools libavcodec-dev libavutil-dev libboost-context-dev libboost-dev liblz4-dev libmbedtls-dev libopus-dev libqt5opengl5-dev libsdl2-dev libssl-dev libswscale-dev libx11-xcb-dev libxcb-dri3-dev libzip-dev libzstd-dev make ninja-build python python3-pip qtbase5-dev qtbase5-private-dev qttools5-dev xorg-dev zlib1g-dev```
+```sudo apt install build-essential cmake g++-10 gcc-10 git glslang-tools libavcodec-dev libavutil-dev libboost-context-dev libboost-dev liblz4-dev libmbedtls-dev libopus-dev libqt5opengl5-dev libsdl2-dev libssl-dev libswscale-dev libx11-xcb-dev libxcb-dri3-dev libzip-dev libzstd-dev make ninja-build python python3-pip qtbase5-dev qtbase5-private-dev qttools5-dev xorg-dev zipcmp zipmerge ziptool zlib1g-dev```
 Either get conan manually from [here](https://conan.io/downloads.html) or use ```sudo pip3 install conan```
 Make sure GCC and G++ 10 is used, look at the Notes section bellow for more info.
 ### Fedora
