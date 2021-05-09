@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
+SU_CMD=$(command -v sudo || command -v doas)
 find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' 2>/dev/null | sort -n -r | xargs rm -rf --
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
 while getopts ":n" options; do
@@ -66,15 +67,15 @@ elif [ "$option" = "2" ]; then
 	fi
 elif [ "$option" = "3" ]; then
 	printf "Uninstalling..."
-	sudo rm /usr/local/bin/yuzu
-	sudo rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
-	sudo rm -f /usr/share/pixmaps/yuzu.svg
-	sudo rm -f /usr/share/pixmaps/yuzu.png
-	sudo rm /usr/share/applications/yuzu.desktop
-	sudo rm /usr/share/mime/packages/yuzu.xml
-	sudo rm -f /usr/local/share/applications/yuzu.desktop
-	sudo update-desktop-database
-	sudo update-mime-database /usr/share/mime
+	$SU_CMD rm /usr/local/bin/yuzu
+	$SU_CMD rm /usr/share/icons/hicolor/scalable/apps/yuzu.svg
+	$SU_CMD rm -f /usr/share/pixmaps/yuzu.svg
+	$SU_CMD rm -f /usr/share/pixmaps/yuzu.png
+	$SU_CMD rm /usr/share/applications/yuzu.desktop
+	$SU_CMD rm /usr/share/mime/packages/yuzu.xml
+	$SU_CMD rm -f /usr/local/share/applications/yuzu.desktop
+	$SU_CMD update-desktop-database
+	$SU_CMD update-mime-database /usr/share/mime
 	printf "\nUninstalled successfully\n"
 	exit
 elif [ "$option" = "4" ]; then
@@ -211,23 +212,23 @@ else
 fi
 #Install yuzu and cleanup /tmp
 printf "\nInstalling..."
-sudo mv bin/yuzu /usr/local/bin/yuzu
+$SU_CMD mv bin/yuzu /usr/local/bin/yuzu
 #Mimetype fix
 XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
     :
 else
-	sudo sh -c "cp ../dist/yuzu.xml /usr/share/mime/packages"
-	sudo update-mime-database /usr/share/mime
+	$SU_CMD sh -c "cp ../dist/yuzu.xml /usr/share/mime/packages"
+	$SU_CMD update-mime-database /usr/share/mime
 fi
 #Launcher shortcut
 FILE=/usr/share/applications/yuzu.desktop
 if [ -f "$FILE" ]; then
     :
 else
-	sudo sh -c "echo /usr/share/icons/hicolor/scalable/apps /usr/share/pixmaps | xargs -n 1 cp ../dist/yuzu.svg"
-	sudo sh -c "cp ../dist/yuzu.desktop /usr/share/applications"
-	sudo update-desktop-database
+	$SU_CMD sh -c "echo /usr/share/icons/hicolor/scalable/apps /usr/share/pixmaps | xargs -n 1 cp ../dist/yuzu.svg"
+	$SU_CMD sh -c "cp ../dist/yuzu.desktop /usr/share/applications"
+	$SU_CMD update-desktop-database
 fi
 find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
 printf "\n"
