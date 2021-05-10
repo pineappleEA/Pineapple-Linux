@@ -171,7 +171,7 @@ curl -sO https://raw.githubusercontent.com/PineappleEA/Pineapple-Linux/master/in
 patch -p1 < inject-git-info.patch
 #Replace warning to  errors with just warnings, needed when compiling with ninja
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror$/-W/g' {} +
-find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*)$/ )/g' {} +
+#find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*)$/ )/g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/^.*-Werror=.*$/ /g' {} +
 find . -name "CMakeLists.txt" -exec sed -i 's/-Werror/-W/g' {} +
 #Fix old glslangvalidator in Ubuntu based distros
