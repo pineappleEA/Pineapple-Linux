@@ -185,7 +185,7 @@ sed -i -e 's_^MimeType=.*_&application/x-nx-nsp;application/x-nx-xci;_' dist/yuz
 curl -s https://raw.githubusercontent.com/pineappleEA/Pineapple-Linux/master/yuzu.xml > ./dist/yuzu.xml || curl -s https://gitlab.com/samantas5855/pineapple/-/raw/master/yuzu.xml > ./dist/yuzu.xml
 msvc=$(echo "${PWD##*/}"|sed 's/.*-//')
 mkdir -p build && cd build
-cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DENABLE_QT_TRANSLATION=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DBUILD_DATE="$build_date" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=OFF && ninja -j $(nproc)
+cmake .. -GNinja -DTITLE_BAR_FORMAT_IDLE="yuzu Early Access $title" -DTITLE_BAR_FORMAT_RUNNING="yuzu Early Access $title | {3}" -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=ON -DENABLE_QT_TRANSLATION=ON -DGIT_BRANCH="HEAD" -DGIT_DESC="$msvc" -DBUILD_DATE="$build_date" -DUSE_DISCORD_PRESENCE=ON -DYUZU_USE_QT_WEB_ENGINE=OFF -DYUZU_USE_EXTERNAL_SDL2=OFF && ninja -j $(nproc)
 if [ $? -ne 0 ]; then
 	printf "\n------------------------------------------------------------------------------\n"
     printf "Compilation failed!\n"
