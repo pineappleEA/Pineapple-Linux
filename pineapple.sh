@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 #Print pretty pineapple text and prepare environment
 SU_CMD=$(command -v sudo || command -v doas)
-find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' 2>/dev/null | sort -n -r | xargs rm -rf --
+find /tmp/pineapple/* ! -name '*.tar.gz' ! -name '*.aria2' 2>/dev/null | sort -n -r | xargs rm -rf --
 mkdir -p /tmp/pineapple && cd /tmp/pineapple
 while getopts ":n" options; do
     case "${options}" in
@@ -89,51 +89,28 @@ fi
 }
 prompt
 #Download and unzip given version
-available=$(curl -I -s https://codeload.github.com/pineappleEA/pineapple-src/zip/EA-$title | head -n 1 | grep -o "404")
-if ! [ -z $available ]; then
-	if [ -x "$(command -v aria2c)" ]; then
-	    aria2c -c -x 6 -s 12 $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
-	elif [ -x "$(command -v wget)" ]; then
-	    printf "You are missing aria2, downloading using the slower fallback wget method."
-	    wget -N -c $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
-	else
-		printf "You are missing both aria2 and wget, downloading using the even slower fallback curl method."
-		curl -LOC - $(cat version.txt | grep -o 'https://cdn-.*.7z' | head -n 1)
-	fi
-	if [ $? -ne 0 ]; then
-	    printf "Download failed!\n"
-	    printf "If you are in Italy or Iran, please use a VPN in another country,\n"
-	    printf "otherwise, please try again in a few minutes.\n"
-	    exit
-	fi
-	ZIPNAME=YuzuEA-$title.7z
-	7z x $ZIPNAME yuzu-windows-msvc-early-access/yuzu-windows-msvc-source-*
-	if [ -d "yuzu-windows-msvc-early-access" ]; then
-		cd yuzu-windows-msvc-early-access
-	else
-		printf "Extraction failed!\nMake sure you install all the necessary dependencies.\n"
-		exit
-	fi
-	tar -xf yuzu-windows-msvc-source-*
-	rm yuzu-windows-msvc-source-*.tar.xz 
-	cd $(ls -d yuzu-windows-msvc-source-*)
+if [ -x "$(command -v aria2c)" ]; then
+    aria2c -c --auto-file-renaming=false -x 6 -s 12 https://api.github.com/repos/pineappleEA/pineapple-src/tarball/EA-$title -o pineapple-src-EA-$title.tar.gz
+elif [ -x "$(command -v wget)" ]; then
+    printf "You are missing aria2, downloading using the slower fallback wget method.\n"
+    wget -N -c https://api.github.com/repos/pineappleEA/pineapple-src/tarball/EA-$title -O pineapple-src-EA-$title.tar.gz
 else
-	#Use cURL if wget isn't installed
-	wget https://codeload.github.com/pineappleEA/pineapple-src/legacy.tar.gz/EA-${title} -O pineapple-src-EA-${title}.tar.gz || curl -o pineapple-src-EA-${title}.tar.gz https://codeload.github.com/pineappleEA/pineapple-src/legacy.tar.gz/EA-${title}
-	if [ $? -ne 0 ]; then
-		    printf "Download failed!\n"
-		    printf "Make sure you have wget or curl installed, and maybe try another version,\n"
-		    printf "otherwise, please try again in a few minutes.\n"
-		    exit
-		fi
-	tar -xf pineapple-src-EA-${title}.tar.gz
-	arch_dir=$(tar --exclude='*/*' -tf pineapple-src-EA-${title}.tar.gz)
-	if [ -d "$arch_dir" ]; then
-		cd $arch_dir
-	else
-		printf "Extraction failed!\nAborting...\n"
-		exit
-	fi
+	printf "You are missing both aria2 and wget, downloading using the even slower fallback curl method.\n"
+	curl -LC - https://api.github.com/repos/pineappleEA/pineapple-src/tarball/EA-$title -o pineapple-src-EA-$title.tar.gz
+fi
+if [ $? -ne 0 ] && [ ! -f /tmp/pineapple/pineapple-src-EA-$title.tar.gz ]; then
+    printf "Download failed!\n"
+    printf "If you are in Italy or Iran, please use a VPN in another country,\n"
+    printf "otherwise, please try again in a few minutes.\n"
+    exit
+fi
+tar -xf pineapple-src-EA-${title}.tar.gz
+arch_dir=$(tar --exclude='*/*' -tf pineapple-src-EA-${title}.tar.gz)
+if [ $? -ne 0 ]; then
+	printf "Extraction failed!\nAborting...\n"
+	exit
+else
+	cd $arch_dir
 fi
 
 #Get source modification date
