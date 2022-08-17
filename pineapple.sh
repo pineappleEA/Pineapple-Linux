@@ -172,12 +172,17 @@ if [ $? -ne 0 ]; then
 fi
 printf '\e[1;32m%-6s\e[m' "Compilation completed, do you wish to install it systemwide [y/n]?:"
 read install <&1
+printf '\e[1;32m%-6s\e[m' "Do you wish to install yuzu-cmd [y/n]?:"
+read installcmd <&1
 #Save compiler output to ~/earlyaccess/yuzu and cleanup /tmp if user doesn't want to install
 if [ "$install" = "y" ] || [ "$install" = "Y" ]; then
 	:
 else
-	printf "Aborting..."
+	printf "Installing locally..."
     mkdir -p ~/earlyaccess
+	if [ "$installcmd" = "y" ] || [ "$installcmd" = "Y" ]; then
+		mv bin/yuzu-cmd ~/earlyaccess/yuzu-cmd
+	fi
 	mv bin/yuzu ~/earlyaccess/yuzu
 	cd ~/earlyaccess/
 	find /tmp/pineapple/* ! -name '*.7z' ! -name '*.aria2' | sort -n -r | xargs rm -rf --
@@ -188,6 +193,9 @@ fi
 #Install yuzu and cleanup /tmp
 printf "\nInstalling..."
 $SU_CMD mv bin/yuzu /usr/local/bin/yuzu
+if [ "$installcmd" = "y" ] || [ "$installcmd" = "Y" ]; then
+	$SU_CMD mv bin/yuzu-cmd /usr/local/bin/yuzu-cmd
+fi
 #Mimetype fix
 XML=/usr/share/mime/packages/yuzu.xml
 if [ -f "$XML" ]; then
