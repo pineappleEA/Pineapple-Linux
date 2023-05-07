@@ -1,3 +1,6 @@
+# Attention
+This repo is basically abandoned. It probably doesn't work anymore and if it did it probably wouldn't work with the source code in the pineapple-src repo, only the source zip in the windows releases. Don't bother trying to fix this, just use the AppImages provided in the pineapple-src releases.
+
 # Pineapple-Linux
 A yuzu compiler and updater for Linux
 
